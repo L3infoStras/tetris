@@ -21,7 +21,8 @@ class TetrisGrid(nbCol:Int,nbRaw:Int) {
   }
 
   def getCase (i:Int,j:Int): Boolean= {
-    grid.apply(i*nbCol+j)
+    if((i<0)||(i>=nbRaw)||(j<0)||(j>=nbCol)) true
+    else grid.apply(i*nbCol+j)
   }
 
   def setCase (i:Int,j:Int) (value:Boolean): Unit= {
@@ -47,27 +48,70 @@ class TetrisGrid(nbCol:Int,nbRaw:Int) {
   def getNewShape: Shape = 
     allShape.apply(Random.nextInt(7)) 
 
-  def drawIn (b:Boolean)= {// projette la forme actuelle sur la grille
-    def f(k:Int,l:Int) = setCase (k,l) _
-    def g(k:Int,l:Int) = curShape.getCase(k-shapeAbs,l-shapeOrd)
+  // fonctions de projection et d'effacement sur la grille
+  private def drawAux (b:Boolean)= {// projette la forme actuelle sur la grille
+    def f (k:Int,l:Int) = setCase (k,l) _
+    def g (k:Int,l:Int) = curShape.getCase(k-shapeAbs,l-shapeOrd)
     for {
       i <- shapeAbs until curShape.dim+shapeAbs  
       j <- shapeOrd until curShape.dim+shapeOrd 
-      if ((i>=0)&&(j>=0)&&(j<nbCol))
+      if ((i>=0)&&(j>=0)&&(nbCol>j)&&(nbRaw>i))
     } yield if (g(i,j)) f(i,j) (b)
   }
-  
 
-/*  def mvShapeLeft: Unit = {
-    def reachRight: Boolean = {} // détermine si le mouvement est possible
+  def draw = drawAux (true)
+  def erase = drawAux (false)
+  
+  //detecte une collision true si collision false sinon
+  def collision = {
+    def f (p:Int,q:Int) = getCase(p+shapeAbs,q+shapeOrd)
+    def g (k:Int,l:Int) = curShape.getCase(k,l)
+    (for {
+      i <- 0 until curShape.dim
+      j <- 0 until curShape.dim
+      // ligne suivante pas vraiment nécessaire mais bon
+      //if ((i+shapeAbs>=0)&&(j+shapeOrd>=0)&&(i<nbRaw)&&(j+shapeOrd<nbCol)) 
+    } yield (g(i,j)&&f(i,j))) reduceLeft (_||_)
   }
+
+  // déplace la forme vers la gauche après avoir déterminé si le déplacement était possible 
+  def mvShapeLeft: Unit = {
+    erase
+    shapeOrd=shapeOrd-1
+    if (collision) {
+      shapeOrd=shapeOrd+1
+    }
+    draw
+  }
+
+  // déplace la forme vers la droite après avoir déterminé si le déplacement était possible 
   def mvShapeRight: Unit = {
-    def reachBot: Boolean = {} // détermine si la forme a atteint le niveau le plus bas
+    erase
+    shapeOrd=shapeOrd+1
+    if (collision) {
+      shapeOrd=shapeOrd-1
+    }
+    draw
   }
+
+  // déplace la forme vers le bas après avoir déterminé si le déplacement était possible 
   def mvShapeDown: Unit = {
-    def reachLeft: Boolean = {} // détermine si le mouvement à gauche est possible
+    erase
+    shapeAbs=shapeAbs+1
+    if (collision) {
+      shapeAbs=shapeAbs-1
+    }
+    draw
   }
+
+  // Effectue une rotation si possible de la forme
   def rotateShape: Unit = {
-    def rotPossible: Boolean = {} // détermine si la forme peut tourner
-  }*/
+    erase
+    var s=curShape
+    curShape=curShape.rotation
+    if (collision) {
+      curShape=s
+    }
+    draw
+  }
 }
