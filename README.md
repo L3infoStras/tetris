@@ -14,3 +14,8 @@ Building and running the program
  - type 'run'
 
 (compile only: 'compile')
+
+Running tests
+=============
+
+ - 'test' in the sbt prompt
