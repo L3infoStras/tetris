@@ -1,3 +1,5 @@
+package scalatris
+
 import Array._
 import scala.util._
 

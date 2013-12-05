@@ -1,3 +1,5 @@
+package scalatris
+
 object Main {
     def main(args: Array[String]) {
       val g = new TetrisGrid(10,20)

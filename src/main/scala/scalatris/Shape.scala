@@ -1,3 +1,5 @@
+package scalatris
+
 import Array._
 
 trait Shape {
