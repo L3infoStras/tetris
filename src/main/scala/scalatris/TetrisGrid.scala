@@ -3,16 +3,19 @@ package scalatris
 import Array._
 import scala.util._
 
-class TetrisGrid(nbCol:Int,nbRaw:Int) {
-  val allShape =Array(Tshape0,Oshape0,Ishape0,
+class TetrisGrid {
+  val nbCol = 10
+  val nbRaw = 20
+
+  val allShape = Array(Tshape0,Oshape0,Ishape0,
                       Sshape0,Zshape0,Lshape0,Rshape0)
-  val defaultAbs = (-1) // si la forme est hors de grille,
+  val defaultAbs = -1 // si la forme est hors de grille,
                       // on considère que ses coordonnées
                       // sont négatives
   val defaultOrd = 3
 
                 
-  var grid= new Array[Boolean](nbCase)
+  val grid= new Array[Boolean](nbCase)
   var curShape: Shape = getNewShape
   var shapeAbs = defaultAbs
   var shapeOrd = defaultOrd
@@ -76,7 +79,7 @@ class TetrisGrid(nbCol:Int,nbRaw:Int) {
     } yield (g(i,j)&&f(i,j))) reduceLeft (_||_)
   }
 
-  // déplace la forme vers la gauche après avoir déterminé si le déplacement était possible 
+  // déplace la forme vers la gauche après avoir déterminé si le déplacement était possible
   def mvShapeLeft: Unit = {
     erase
     shapeOrd=shapeOrd-1

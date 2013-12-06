@@ -2,7 +2,7 @@ package scalatris
 
 object Main {
     def main(args: Array[String]) {
-      val g = new TetrisGrid(10,20)
+      val g = new TetrisGrid
       println("Abscisse:" + g.shapeAbs)
       println("Ordonnee:" + g.shapeOrd)
       g.setCase(4,7) (true)
