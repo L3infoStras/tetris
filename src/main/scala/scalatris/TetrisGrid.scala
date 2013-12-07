@@ -15,11 +15,18 @@ class TetrisGrid {
   val defaultOrd = 3
 
                 
-  val grid= new Array[Boolean](nbCase)
+  val grid = new Array[Boolean](nbCase)
   var curShape: Shape = getNewShape
   var shapeAbs = defaultAbs
   var shapeOrd = defaultOrd
 
+/*  def this (abs:Int, ord:Int, g:Array[Boolean], s:Shape) {
+    shapeAbs = abs
+    shapeOrd = ord
+    grid = g
+    curShape = s
+  }
+*/
   //section de la grille à proprement parler.
   def nbCase: Int= {
     nbCol*nbRaw
