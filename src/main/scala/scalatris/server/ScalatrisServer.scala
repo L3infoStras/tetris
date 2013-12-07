@@ -14,7 +14,7 @@ import java.awt.{Color => AWTColor}
 
 import java.awt.geom._
 
-sealed abstract class Direction {
+sealed abstract trait Direction {
   val x = 0
   val y = 0
 }
@@ -127,6 +127,7 @@ class GridCanvas(val grid: Grid) extends Component {
   val bluishGray = new AWTColor(48, 99, 99)
   val bluishSilver = new AWTColor(210, 255, 255)
   val lightBluishGray = new AWTColor(204, 204, 178)
+  val green = new AWTColor(30, 224, 40)
 
 
   override def paintComponent(g : Graphics2D) {
@@ -141,7 +142,7 @@ class GridCanvas(val grid: Grid) extends Component {
   
     def drawVerticalLines {
       g.setColor(bluishSilver)
-      for (x <- 0 to grid.nbCols)
+      for (x <- 1 to grid.nbCols)
         g.draw(new Line2D.Double(x0 + x * cellSize, y0, x0 + x * cellSize, y0 + cellSize*grid.nbRows))
     }
 
@@ -166,14 +167,18 @@ class GridCanvas(val grid: Grid) extends Component {
 
     // on remplit la zone de jeu en gris
     g.setColor(lightBluishGray)
-    g.fillRect(0, cellSize, (grid.nbCols+1)*cellSize, (grid.nbRows+1)*cellSize)
+    g.fillRect(0, cellSize, (grid.nbCols)*cellSize,
+      (grid.nbRows - 1)*cellSize)
 
     // on remplit la zone où se déplacent les pieces, de bleu
     g.setColor(bluishGray)
-    g.fillRect(cellSize, cellSize, grid.nbCols*cellSize, grid.nbRows*cellSize)
+    g.fillRect(cellSize, cellSize, (grid.nbCols - 2)*cellSize,
+      (grid.nbRows - 1)*cellSize)
 
 
+    
     drawShape(grid.shape)
+
 
     for (i <- 0 until grid.nbCols) {
       for (j <- 0 until grid.nbRows) {
@@ -187,9 +192,8 @@ class GridCanvas(val grid: Grid) extends Component {
     drawVerticalLines
     drawHorizontalLines
 
-    g.setStroke(new BasicStroke(3f))
-
-
+    g.setColor(lightBlack)
+    g.fillRect(0, 0, size.width, cellSize)
   }
 }
 
