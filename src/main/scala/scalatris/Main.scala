@@ -5,12 +5,14 @@ object Main {
       val g = new TetrisGrid
       println("Abscisse:" + g.shapeAbs)
       println("Ordonnee:" + g.shapeOrd)
-      g.setCase(4,7) (true)
-      g.setCase(14,6) (true)
-      g.setCase(15,5) (true)
+      for (i <- 0 until g.nbCol-1) yield g.setCase(19,i) (true)
+      for (i <- 2 until g.nbCol) yield g.setCase(18,i) (true)
+      for (i <- 1 until g.nbCol-5) yield g.setCase(17,i) (true)
+      for (i <- 0 until 2) yield g.setCase(16,i) (true)
       var input: Char = Console.readChar
-      println(g.collision)
+      val aig = new AIgrid(4,5,g.curShape,g.grid)
       g.printGrid
+      println(aig.eval)
       while(input!='r')
       {
         input=Console.readChar
@@ -18,27 +20,9 @@ object Main {
         if(input=='q') g.mvShapeLeft
         if(input=='s') g.mvShapeDown
         if(input=='z') g.rotateShape
-        println(g.collision)
         g.printGrid
+        println(aig.eval)
       }
- /*     println(g.collision)
-      g.draw 
-      g.printGrid
-      println(g.collision)
-      g.mvShapeRight
-      g.mvShapeRight
-      g.mvShapeRight
-      g.mvShapeRight
-      g.mvShapeRight
-      println(g.collision)
-      g.printGrid
-      g.mvShapeLeft
-      println(g.collision)
-      g.printGrid
-      g.mvShapeRight
-      println(g.collision)
-      g.printGrid
-*/
     }
 }
 

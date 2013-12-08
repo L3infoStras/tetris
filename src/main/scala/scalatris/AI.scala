@@ -4,10 +4,10 @@ import Array._
 import scala.util._
 
 class AI (tg:TetrisGrid) {
-  val left = 'q'
-  val right = 'd'
-  val bot = 's'
-  val rot = 'z'
+  val left = 'h'
+  val right = 'j'
+  val bot = 'k'
+  val rot = 'l'
 
   // bon le code c'est un peu de la merde mais il faudrait rajouter des constructeurs dans AIgrid pour 
   // clarifier. Mais l'algo devrait marcher.
