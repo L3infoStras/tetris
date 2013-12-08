@@ -2,7 +2,9 @@ package scalatris.lib
 
 import Array.ofDim
 
-class Grid(_nbCols:Int, _nbRows:Int) {
+
+
+class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   val nbCols:Int = _nbCols + 2
   val nbRows:Int = _nbRows + 2
 
