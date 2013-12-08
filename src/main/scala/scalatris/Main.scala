@@ -10,7 +10,7 @@ object Main {
       for (i <- 1 until g.nbCol-5) yield g.setCase(17,i) (true)
       for (i <- 0 until 2) yield g.setCase(16,i) (true)
       var input: Char = Console.readChar
-      val aig = new AIgrid(4,5,g.curShape,g.grid)
+      val aig = new AIgrid(-1,3,g.curShape,g.grid.clone)
       val ai = new AI(aig)
       println(ai.computeAI)
       g.printGrid

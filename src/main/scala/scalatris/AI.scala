@@ -19,6 +19,7 @@ class AI (tg:TetrisGrid) {
       else {
         aig.draw
         aig.printGrid
+        println(aig.eval)
         println(preInput++mvl)
         (aig,preInput++mvl)
       }
@@ -27,13 +28,13 @@ class AI (tg:TetrisGrid) {
       if(aig.possibleMvLeft)
         reachLeft (new AIgrid(aig.shapeAbs,aig.shapeOrd-1,aig.curShape,aig.grid.clone),
                   left::mvl) :+ reachBot (aig, mvl)
-      else Nil
+      else List(reachBot (aig, mvl))
     }
     def reachRight (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
       if(aig.possibleMvRight)
         reachRight (new AIgrid(aig.shapeAbs,aig.shapeOrd+1,aig.curShape,aig.grid.clone),
                    right::mvl) :+ reachBot (aig, mvl)
-      else Nil
+      else List(reachBot (aig, mvl))
     }
     reachLeft (new AIgrid (ag.shapeAbs, ag.shapeOrd-1, ag.curShape, ag.grid.clone),List(left)) ++ reachRight (ag,Nil)
   }
