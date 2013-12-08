@@ -1,4 +1,4 @@
-package telnetris
+package scalatris.server
 
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors

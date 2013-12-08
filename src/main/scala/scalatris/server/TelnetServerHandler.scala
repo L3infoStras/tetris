@@ -1,4 +1,4 @@
-package telnetris
+package scalatris.server
 
 import java.util.concurrent.atomic.AtomicLong
 import org.jboss.netty.buffer.{ChannelBuffer,ChannelBuffers}
