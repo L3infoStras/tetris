@@ -142,5 +142,19 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     case 4 => 1200
   }
 
+  def printGrid: Unit= {
+    for (i<- 1 to _nbCols) {
+      for (j<- 1 to _nbRows) {
+        blocks (i) (j) match {
+          case true =>
+            if ((i*_nbCols+j)%10==0) println(". ")
+            else print(". ")
+          case false => 
+            if ((i*_nbCols+j)%10==0) println("_ ")
+            else print("_ ")
+        }
+      } 
+    }
+  }
 
 }
