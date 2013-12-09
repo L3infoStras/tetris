@@ -4,7 +4,7 @@ import scalatris.lib._
 import Array._
 import scala.util._
 
-class AI {
+object AI {
   val left = 'q'
   val right = 'd'
   val bot = 's'
@@ -22,7 +22,10 @@ class AI {
                  mvl :+ bot) // enfin je crois :)
       }
       else {
-        aig.move(DirDown)
+        aig.fixShape
+        aig.printGrid
+        println(aig.eval)
+        println(mvl)
         (aig,preInput++mvl)
       }
     }
@@ -42,20 +45,20 @@ class AI {
                    right::mvl) :+ reachBot (aig, mvl)
       else List(reachBot (aig, mvl))
     }
-    reachLeft (new AIgrid (ag,DirLeft),List(left)) ++ reachRight (ag,Nil)
+    reachLeft (new AIgrid (ag,DirLeft),List(left)) ++ reachRight (new AIgrid(ag),Nil)
   }
 
   // Genere la liste pour toutes les rotations de la forme actuelle
   def listWithRot (ag:AIgrid): List[(AIgrid, List[Char])] = {
     // parcours la liste des rotations possible jusqu'a revenir à la premiere
     def listRot (aig:AIgrid) (shStop:Shape) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
-      if(aig.shape!=shStop && aig.rotationIsPossible) {
-        listGrid (aig) (preInput) ++ 
+      if((aig.shape!=shStop) && aig.rotationIsPossible) {
+        listGrid (new AIgrid(aig)) (preInput) ++ 
         listRot (new AIgrid(aig,Rotation)) (shStop) (preInput :+ rot)
       }
       else Nil
     }
-    listGrid (ag) (Nil) ++ 
+    listGrid (new AIgrid(ag)) (Nil) ++ 
     listRot (new AIgrid(new AIgrid(ag,DirDown),Rotation)) (ag.shape) (List(bot,rot))
   }
 
@@ -65,7 +68,7 @@ class AI {
       if (v1._1>v2._1) v1
       else v2
     }
-    val gridList = listWithRot (ag) 
+    val gridList = listWithRot (new AIgrid(ag)) 
     ((gridList map (v => (v._1.eval,v._2))) reduceLeft (choseVal (_,_)))._2
   }
 }

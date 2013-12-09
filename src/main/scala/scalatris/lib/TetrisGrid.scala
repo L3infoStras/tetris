@@ -143,8 +143,8 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   }
 
   def printGrid: Unit= {
-      for (i <- 1 to _nbRows) {
-        for (j <- 1 to _nbCols) {
+      for (i <- 0 until nbRows) {
+        for (j <- 0 until nbCols) {
           blocks (j) (i) match {
             case true => print(". ")
             case false => print("_ ")

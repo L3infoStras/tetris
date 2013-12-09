@@ -12,6 +12,9 @@ object Main {
 //      var input: Char = Console.readChar
       //g.blocks (10) (1) = true
       g.printGrid
+      val aig = new AIgrid(g)
+      println(aig.eval)
+      println(AI.computeAI(aig))
 /*      while(input!='r')
       {
         input=Console.readChar
