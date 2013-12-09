@@ -48,14 +48,17 @@ class Shape (_x: Int, _y: Int, k: ShapeKind) {
     case JShapeKind3 => List((0, 0), (0, 0), (1, 0), (-1, 0), (-1, 1))
   }
 
-  def rotation = new Shape(x, y, k.rotation)
+  def rotation: Shape = new Shape(x, y, k.rotation)
 
   /*def makeMove (dir:Direction) {
     x = x + dir.x
     y = y + dir.y
   }*/
 
-  def makeMove (dir: Direction) {
-    new Shape (x + dir.x, y + dir.y, k)
+  def makeMove (dir: Direction): Shape = {
+    dir match {
+      case Rotation => rotation
+      case _ => new Shape (x + dir.x, y + dir.y, k)
+    }
   }
 }

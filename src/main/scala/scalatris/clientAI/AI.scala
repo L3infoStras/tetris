@@ -1,6 +1,6 @@
-package clientAI
+package scalatris.clientAI
 
-import scalatris.lib
+import scalatris.lib._
 import Array._
 import scala.util._
 
@@ -16,11 +16,13 @@ class AI {
     // Déplace la forme jusqu'en bas de la grille et enregistre les entrées
     // en meme temps
     def reachBot (aig:AIgrid, mvl:List[Char]): (AIgrid,List[Char]) = {
-      if(aig.moveIsPossible(DirDown)) 
-        reachBot (aig.move(DirDown), // pas besoin de copier cette grille la
-                                     // enfin je crois :)
-                 mvl :+ bot)
+      if(aig.moveIsPossible(DirDown)) { 
+        aig.move(DirDown)
+        reachBot (aig,       // pas besoin de copier cette grille la
+                 mvl :+ bot) // enfin je crois :)
+      }
       else {
+        aig.move(DirDown)
         (aig,preInput++mvl)
       }
     }
@@ -28,7 +30,7 @@ class AI {
     // ainsi que les entrées associées aux déplacements
     def reachLeft (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
       if(aig.moveIsPossible(DirLeft))
-        reachLeft (new AIgrid(aig.move(DirLeft)),
+        reachLeft (new AIgrid(aig,DirLeft),
                   left::mvl) :+ reachBot (aig, mvl)
       else List(reachBot (aig, mvl))
     }
@@ -36,25 +38,25 @@ class AI {
     // ainsi que les entrées associées aux déplacements
     def reachRight (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
       if(aig.moveIsPossible(DirRight))
-        reachRight (new AIgrid(aig.move(DirRight)),
+        reachRight (new AIgrid(aig,DirRight),
                    right::mvl) :+ reachBot (aig, mvl)
       else List(reachBot (aig, mvl))
     }
-    reachLeft (new AIgrid (ag.move(DirLeft)),List(left)) ++ reachRight (ag,Nil)
+    reachLeft (new AIgrid (ag,DirLeft),List(left)) ++ reachRight (ag,Nil)
   }
 
   // Genere la liste pour toutes les rotations de la forme actuelle
   def listWithRot (ag:AIgrid): List[(AIgrid, List[Char])] = {
     // parcours la liste des rotations possible jusqu'a revenir à la premiere
     def listRot (aig:AIgrid) (shStop:Shape) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
-      if(aig.shape!=shStop) {
+      if(aig.shape!=shStop && aig.rotationIsPossible) {
         listGrid (aig) (preInput) ++ 
-        listRot (new AIgrid(aig.rotate)) (shStop) (preInput :+ rot)
+        listRot (new AIgrid(aig,Rotation)) (shStop) (preInput :+ rot)
       }
       else Nil
     }
     listGrid (ag) (Nil) ++ 
-    listRot (new AIgrid(ag.move(DirDown).rotate) (ag.shape) (List(bot,rot))
+    listRot (new AIgrid(new AIgrid(ag,DirDown),Rotation)) (ag.shape) (List(bot,rot))
   }
 
   // Calcule la meilleure grille et renvoit la séquence d'entrées associées
