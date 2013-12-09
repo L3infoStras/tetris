@@ -12,10 +12,10 @@ class AI {
 
   // Genere une liste de couple (grille, entrees) 
   // pour une ligne selon une rotation particulière
-  def listGrid (ag:AIgrid) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
+  def listGrid (ag:AIgrid) (preInput: List[Char]): List[(AIgrid, List[Char])] = {
     // Déplace la forme jusqu'en bas de la grille et enregistre les entrées
     // en meme temps
-    def reachBot (aig:AIgrid, mvl:List[Char]): (AIgrid,List[Char]) = {
+    def reachBot (aig:AIgrid, mvl:List[Char]): (AIgrid, List[Char]) = {
       if(aig.moveIsPossible(DirDown)) { 
         aig.move(DirDown)
         reachBot (aig,       // pas besoin de copier cette grille la
@@ -23,12 +23,12 @@ class AI {
       }
       else {
         aig.move(DirDown)
-        (aig,preInput++mvl)
+        (aig, preInput ++ mvl)
       }
     }
     // En partant de la forme actuelle genère une liste de forme vers la gauche
     // ainsi que les entrées associées aux déplacements
-    def reachLeft (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
+    def reachLeft (aig:AIgrid, mvl:List[Char]): List[(AIgrid, List[Char])] = {
       if(aig.moveIsPossible(DirLeft))
         reachLeft (new AIgrid(aig,DirLeft),
                   left::mvl) :+ reachBot (aig, mvl)
@@ -36,7 +36,7 @@ class AI {
     }
     // En partant de la forme actuelle genère une liste de forme vers la droite
     // ainsi que les entrées associées aux déplacements
-    def reachRight (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
+    def reachRight (aig:AIgrid, mvl:List[Char]): List[(AIgrid, List[Char])] = {
       if(aig.moveIsPossible(DirRight))
         reachRight (new AIgrid(aig,DirRight),
                    right::mvl) :+ reachBot (aig, mvl)
@@ -49,9 +49,9 @@ class AI {
   def listWithRot (ag:AIgrid): List[(AIgrid, List[Char])] = {
     // parcours la liste des rotations possible jusqu'a revenir à la premiere
     def listRot (aig:AIgrid) (shStop:Shape) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
-      if(aig.shape!=shStop && aig.rotationIsPossible) {
+      if(aig.shape != shStop && aig.rotationIsPossible) {
         listGrid (aig) (preInput) ++ 
-        listRot (new AIgrid(aig,Rotation)) (shStop) (preInput :+ rot)
+        listRot (new AIgrid(aig, Rotation)) (shStop) (preInput :+ rot)
       }
       else Nil
     }
