@@ -1,4 +1,4 @@
-package scalatris.server
+package scalatris.server.network
 
 import java.util.concurrent.atomic.AtomicLong
 import org.jboss.netty.buffer.{ChannelBuffer,ChannelBuffers}
@@ -24,7 +24,7 @@ import scalatris.server._
 /**
  * Handles a server-side channel.
  */
-class TelnetServerHandler extends SimpleChannelUpstreamHandler{
+class TCPServerHandler extends SimpleChannelUpstreamHandler{
 
   private val logger = Logger.getLogger(getClass.getName)
 
@@ -59,15 +59,15 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler{
     } else if ("bye".equals(request.toLowerCase())) {
       close = true
     } else if ("right".equals(request.toLowerCase())) {
-
+      println("right")
     } else if ("left".equals(request.toLowerCase())) {
-
+      println("left")
     } else if ("down".equals(request.toLowerCase())) {
-
+      println("down")
     } else if ("rotate".equals(request.toLowerCase())) {
-
+      println("rotate")
     } else if ("fall".equals(request.toLowerCase())) {
-
+      println("fall")
     }
 
     // Send the response to the user
