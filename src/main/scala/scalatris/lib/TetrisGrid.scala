@@ -60,9 +60,6 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
         if (moveIsPossible(dir))
           shape = shape.makeMove(DirDown)
 
-        else if (shape.y == 0)
-          gameLost = true
-
         else {
           fixShape
           newShape

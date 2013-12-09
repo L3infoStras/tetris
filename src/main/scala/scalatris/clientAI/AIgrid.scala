@@ -5,7 +5,7 @@ import Array._
 import scala.util._
 
 
-class AIgrid (tetGrid:TetrisGrid, dir:Direction) extends TetrisGrid(10,20) {
+class AIgrid (tetGrid: TetrisGrid, dir: Direction) extends TetrisGrid(10,20) {
   shape = tetGrid.shape.makeMove(dir) 
   blocks = blocks.clone // on copie l'array 
 
@@ -15,7 +15,7 @@ class AIgrid (tetGrid:TetrisGrid, dir:Direction) extends TetrisGrid(10,20) {
   val coefBlockade: Double = -0.59
 
   def this (tetGrid:TetrisGrid) = {
-    this(tetGrid,NoMove)
+    this(tetGrid, NoMove)
   }
 
   // Evalue la grille et renvoit un score
