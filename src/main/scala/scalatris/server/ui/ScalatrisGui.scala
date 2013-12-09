@@ -1,4 +1,4 @@
-package scalatris.server
+package scalatris.server.ui
 
 import scalatris._
 import scalatris.lib._
@@ -10,7 +10,6 @@ import swing.event._
 
 
 import java.awt.{Color => AWTColor}
-
 
 object ScalatrisGui extends SimpleSwingApplication {
 
