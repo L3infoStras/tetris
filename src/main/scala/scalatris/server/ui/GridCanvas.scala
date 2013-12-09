@@ -23,7 +23,6 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
     val y0 = 0
 
     def fillCell(x:Int, y:Int) {
-      g.setColor(lightBluishGray)
       g.fillRect(x0 + x*cellSize, y0 + y*cellSize, cellSize, cellSize)
     }
   
@@ -40,6 +39,7 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
     }
 
     def drawShape (s: Shape) {
+      g.setColor(s.color)
       for (c <- s.cells) {
         fillCell(s.x + c._1, s.y + c._2)
       }
@@ -67,6 +67,9 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
     drawShape(grid.shape)
 
 
+
+
+    g.setColor(lightBluishGray)
     for (i <- 0 until grid.nbCols) {
       for (j <- 0 until grid.nbRows) {
         if (grid.blocks(i)(j)) {
@@ -79,6 +82,7 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
     drawVerticalLines
     drawHorizontalLines
 
+    // une ligne noire pour cacher la ligne avant la grille
     g.setColor(lightBlack)
     g.fillRect(0, 0, size.width, cellSize)
   }
