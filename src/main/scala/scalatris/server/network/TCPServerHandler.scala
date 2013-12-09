@@ -59,15 +59,15 @@ class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
     } else if ("bye".equals(request.toLowerCase())) {
       close = true
     } else if ("right".equals(request.toLowerCase())) {
-      println("right")
+      grid.move(DirRight)
     } else if ("left".equals(request.toLowerCase())) {
-      println("left")
+      grid.move(DirLeft)
     } else if ("down".equals(request.toLowerCase())) {
-      println("down")
+      grid.move(DirDown)
     } else if ("rotate".equals(request.toLowerCase())) {
-      println("rotate")
+      grid.move(Rotation)
     } else if ("fall".equals(request.toLowerCase())) {
-      println("fall")
+      grid.fall
     }
 
     // Send the response to the user
