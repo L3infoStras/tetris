@@ -9,6 +9,10 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   val nbCols:Int = _nbCols + 2
   val nbRows:Int = _nbRows + 2
 
+  
+  var linesCleared = 0
+  def level: Int = linesCleared / 10
+
   val shapeKinds = Array(IShapeKind, OShapeKind, JShapeKind,
     LShapeKind, TShapeKind, SShapeKind, ZShapeKind)
 
@@ -114,6 +118,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
         blocks(i)(j) = blocks(i)(j-1)
     for (i <- 1 to nbCols-2)
       blocks(i)(0) = false
+    linesCleared+=1
   }
 
   def checkLines {
@@ -121,13 +126,13 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     for (_ <- 1 to 4) {
       for (j <- nbRows-1 to 1 by -1)
         if (lineIsFull(j)) {
-          println("line: " ++ j.toString ++ " is full")
           n += 1
           dropLine(j)
         }
     }
     addScore(n)
     println("Score: " ++ score.toString)
+    println("Niveau: " ++ level.toString)
   }
 
   def addScore(n: Int) {
