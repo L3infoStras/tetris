@@ -106,14 +106,14 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
       shape = shape.rotation
   }
 
-  def lineIsFull(y: Int) = blocks.map(_(y)).reduceLeft(_&&_)
+  def lineIsFull(y: Int): Boolean = blocks.map(_(y)).reduceLeft(_&&_)
 
- def dropLine(y: Int) {
-   for (j <- y to 1 by -1)
-     for(i <- 1 to nbCols-2)
-       blocks(i)(j) = blocks(i)(j-1)
-   for (i <- 1 to nbCols-2)
-     blocks(i)(0) = false
+  def dropLine(y: Int) {
+    for (j <- y to 1 by -1)
+      for(i <- 1 to nbCols-2)
+        blocks(i)(j) = blocks(i)(j-1)
+    for (i <- 1 to nbCols-2)
+      blocks(i)(0) = false
   }
 
   def checkLines {
