@@ -17,6 +17,10 @@ import java.net.InetAddress
 import java.util.Date
 import org.jboss.netty.channel.ChannelFutureListener
 
+import scalatris._
+import scalatris.lib._
+import scalatris.server._
+
 /**
  * Handles a server-side channel.
  */
@@ -36,7 +40,9 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler{
     // Message send to user on connection
     e.getChannel.write(
       "Welcome to " + InetAddress.getLocalHost.getHostName + "!\r\n")
-    e.getChannel.write("It is " + new Date + " now.\r\n")
+    e.getChannel.write("Scalatris is starting...\r\n")
+    // Start tetris game on client computer
+
   }
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
@@ -45,17 +51,23 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler{
     // The result will be a String thanks to the codec in TelnetPipelineFactory
     val request = e.getMessage.toString
 
-    // Create a response (will probably change in a close future)
+    // Create a response
     var response: String = ""
     var close: Boolean = false
     if (request.length == 0) {
       response = "Please type something.\r\n"
     } else if ("bye".equals(request.toLowerCase())) {
-      response = "Have a good day!\r\n"
       close = true
-    } else {
-      response = "Did you say '" + request + "'?\r\n"
-      println(request)
+    } else if ("right".equals(request.toLowerCase())) {
+
+    } else if ("left".equals(request.toLowerCase())) {
+
+    } else if ("down".equals(request.toLowerCase())) {
+
+    } else if ("rotate".equals(request.toLowerCase())) {
+
+    } else if ("fall".equals(request.toLowerCase())) {
+
     }
 
     // Send the response to the user
