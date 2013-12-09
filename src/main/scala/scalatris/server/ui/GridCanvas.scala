@@ -10,12 +10,12 @@ import java.awt.geom.Line2D
 
 
 class GridCanvas(val grid: TetrisGrid) extends Component {
+
+  // on définit quelques couleurs...
   val lightBlack = new AWTColor(5, 5, 5)
   val bluishGray = new AWTColor(48, 99, 99)
   val bluishSilver = new AWTColor(210, 255, 255)
   val lightBluishGray = new AWTColor(204, 204, 178)
-  val green = new AWTColor(30, 224, 40)
-
 
   override def paintComponent(g : Graphics2D) {
     val cellSize = ((size.height*0.9) / grid.nbRows).toInt
