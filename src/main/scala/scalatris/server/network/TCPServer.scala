@@ -8,16 +8,10 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
 /**
  * TCP server for communication between IA and the tetris game
  */
-object TCPServer{
-  def main(args: Array[String]){
-    // Server configuration
+class TCPServer (tcpPF: TCPServerPipelineFactory)  {
     val bootstrap = new ServerBootstrap(
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
 
-    // Pipeline factory configuration
-    bootstrap.setPipelineFactory(new TCPServerPipelineFactory)
-
-    // Bind to port and start the server
+    bootstrap.setPipelineFactory(tcpPF)
     bootstrap.bind(new InetSocketAddress(9000))
-  }
 }
