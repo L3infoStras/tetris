@@ -1,17 +1,16 @@
-package scalatris
+import scalatris.lib._
+import scalatris.clientIA._
 
 object Main {
     def main(args: Array[String]) {
       val g = new TetrisGrid(10,20)
-      println("Abscisse:" + g.shapeAbs)
-      println("Ordonnee:" + g.shapeOrd)
-      g.setCase(4,7) (true)
-      g.setCase(14,6) (true)
-      g.setCase(15,5) (true)
+      for (i <- 0 until g.nbCol-1)  g.blocks (19) (i)=true
+      for (i <- 2 until g.nbCol) g.blocks (18) (i)=true
+      for (i <- 1 until g.nbCol-5) g.blocks (17) (i)=true
+      for (i <- 0 until 2) g.blocks (16) (i)=true
       var input: Char = Console.readChar
-      println(g.collision)
       g.printGrid
-      while(input!='r')
+/*      while(input!='r')
       {
         input=Console.readChar
         if(input=='d') g.mvShapeRight
@@ -21,7 +20,7 @@ object Main {
         println(g.collision)
         g.printGrid
       }
- /*     println(g.collision)
+     println(g.collision)
       g.draw 
       g.printGrid
       println(g.collision)
