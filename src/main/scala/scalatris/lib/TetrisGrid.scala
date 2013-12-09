@@ -8,6 +8,7 @@ import scala.util.Random
 class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   val nbCols:Int = _nbCols + 2
   val nbRows:Int = _nbRows + 2
+  var gameLost: Boolean = false
 
   
   var linesCleared = 0
@@ -58,6 +59,10 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
       case DirDown => {
         if (moveIsPossible(dir))
           shape = shape.makeMove(DirDown)
+
+        else if (shape.y == 0)
+          gameLost = true
+
         else {
           fixShape
           newShape
