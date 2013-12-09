@@ -13,7 +13,7 @@ import org.jboss.netty.handler.codec.string.StringEncoder
 /**
  * Creates a newly configured ChannelPipeline for a new channel.
  */
-class TCPServerPipelineFactory extends ChannelPipelineFactory {
+class TCPServerPipelineFactory (tcpHandler: TCPServerHandler) extends ChannelPipelineFactory {
 
   override def getPipeline: ChannelPipeline = {
     // Create a default pipeline implementation.
@@ -26,7 +26,7 @@ class TCPServerPipelineFactory extends ChannelPipelineFactory {
     pipeline.addLast("encoder", new StringEncoder)
 
     // and then business logic.
-    pipeline.addLast("handler", new TCPServerHandler)
+    pipeline.addLast("handler", tcpHandler)
 
     pipeline
   }

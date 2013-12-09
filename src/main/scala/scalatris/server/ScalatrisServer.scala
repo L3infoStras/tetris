@@ -64,4 +64,8 @@ object ScalatrisServer extends SimpleSwingApplication {
   override def quit {
     super.quit
   }
+
+  val tcpHandler = new TCPServerHandler(grid)
+  val tcpPF = new TCPServerPipelineFactory(tcpHandler)
+  val tcpServer = new TCPServer(tcpPF)
 }

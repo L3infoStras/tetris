@@ -24,7 +24,7 @@ import scalatris.server._
 /**
  * Handles a server-side channel.
  */
-class TCPServerHandler extends SimpleChannelUpstreamHandler{
+class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
 
   private val logger = Logger.getLogger(getClass.getName)
 
