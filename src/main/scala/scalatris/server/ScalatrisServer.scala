@@ -17,12 +17,10 @@ object ScalatrisServer extends SimpleSwingApplication {
   val grid = new TetrisGrid(10, 20)
 
   // serveur tcp pour communiquer avec l'AI
-  // mauvaise encapsulation
+  // (mauvaise encapsulation...)
   val tcpHandler = new TCPServerHandler(grid)
   val tcpPF = new TCPServerPipelineFactory(tcpHandler)
   val tcpServer = new TCPServer(tcpPF)
-
-
 
   val canvas = new GridCanvas(grid)
 
