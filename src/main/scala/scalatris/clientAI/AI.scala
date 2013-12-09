@@ -15,7 +15,7 @@ class AI {
   def listGrid (ag:AIgrid) (preInput: List[Char]): List[(AIgrid, List[Char])] = {
     // Déplace la forme jusqu'en bas de la grille et enregistre les entrées
     // en meme temps
-    def reachBot (aig:AIgrid, mvl:List[Char]): (AIgrid, List[Char]) = {
+    def reachBot (aig: AIgrid, mvl: List[Char]): (AIgrid, List[Char]) = {
       if(aig.moveIsPossible(DirDown)) { 
         aig.move(DirDown)
         reachBot (aig,       // pas besoin de copier cette grille la
@@ -30,7 +30,7 @@ class AI {
     // ainsi que les entrées associées aux déplacements
     def reachLeft (aig:AIgrid, mvl:List[Char]): List[(AIgrid, List[Char])] = {
       if(aig.moveIsPossible(DirLeft))
-        reachLeft (new AIgrid(aig,DirLeft),
+        reachLeft (new AIgrid(aig, DirLeft),
                   left::mvl) :+ reachBot (aig, mvl)
       else List(reachBot (aig, mvl))
     }
