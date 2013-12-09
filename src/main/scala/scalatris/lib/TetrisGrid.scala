@@ -59,7 +59,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
         if (rotationIsPossible)
           shape.makeMove(Rotation)
       }
-      case _ => {
+      case DirRight | DirLeft | NoMove => {
         if (moveIsPossible(dir))
           shape.makeMove(dir)
       }
