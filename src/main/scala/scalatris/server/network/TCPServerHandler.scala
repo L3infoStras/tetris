@@ -65,9 +65,9 @@ class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
     // val future = e.getChannel.write(response)
 
     // Close the connection
-    if (close) {
-      future.addListener(ChannelFutureListener.CLOSE)
-    }
+//    if (close) {
+//      future.addListener(ChannelFutureListener.CLOSE)
+//    }
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
