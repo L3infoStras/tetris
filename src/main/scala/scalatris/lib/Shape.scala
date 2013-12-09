@@ -1,57 +1,108 @@
 package scalatris.lib
 
+import java.awt.{Color => AWTColor}
+
 
 sealed abstract trait ShapeKind {
-  val rotation: ShapeKind
+  val color: AWTColor
+  val cells: List[List[(Int, Int)]]
 }
 
-case object IShapeKind0 extends ShapeKind {
-  val rotation = IShapeKind1
-}
+case object IShapeKind extends ShapeKind {
+  val color = new AWTColor(0, 200, 100)
 
-case object IShapeKind1 extends ShapeKind {
-  val rotation = IShapeKind0
+  val cells = List(
+    List((0, 0), (0, 1), (0, 2), (0, -1)),
+    List((0, 0), (1, 0), (2, 0), (-1, 0)),
+    List((0, 0), (0, 1), (0, 2), (0, -1)),
+    List((0, 0), (1, 0), (2, 0), (-1, 0))
+  )
 }
 
 case object OShapeKind extends ShapeKind {
-  val rotation = OShapeKind
+  val color = new AWTColor(255, 10, 10)
+
+  val cells = List(
+    List((0, 0), (1, 0), (1, 1), (0, 1)),
+    List((0, 0), (1, 0), (1, 1), (0, 1)),
+    List((0, 0), (1, 0), (1, 1), (0, 1)),
+    List((0, 0), (1, 0), (1, 1), (0, 1))
+  )
+
 }
 
-case object JShapeKind0 extends ShapeKind {
-  val rotation = JShapeKind1
+case object JShapeKind extends ShapeKind {
+  val color = new AWTColor(20, 20, 255)
+  val cells = List(
+    List((0, 0), (0, 1), (0, -1), (-1, 1)),
+    List((0, 0), (1, 0), (-1, 0), (-1, -1)),
+    List((0, 0), (0, -1), (1, -1), (0, 1)),
+    List((0, 0), (1, 0), (-1, 0), (1, 1))
+  )
+
 }
 
-case object JShapeKind1 extends ShapeKind {
-  val rotation = JShapeKind2
+case object LShapeKind extends ShapeKind {
+  val color = new AWTColor(20, 20, 255)
+  val cells = List(
+    List((0, 0), (0, -1), (0, 1), (1, 1)),
+    List((0, 0), (1, 0), (-1, 0), (-1, 1)),
+    List((0, 0), (0, 1), (0, -1), (-1, -1)),
+    List((0, 0), (1, 0), (-1, 0), (1, -1))
+  )
 }
 
-case object JShapeKind2 extends ShapeKind {
-  val rotation = JShapeKind3
+case object TShapeKind extends ShapeKind {
+  val color = new AWTColor(150, 50, 50)
+  val cells = List(
+    List((0, 0), (1, 0), (-1, 0), (0, -1)),
+    List((0, 0), (1, 0), (0, 1), (0, -1)),
+    List((0, 0), (1, 0), (-1, 0), (0, 1)),
+    List((0, 0), (0, -1), (0, 1), (-1, 0))
+  )
 }
 
-case object JShapeKind3 extends ShapeKind {
-  val rotation = JShapeKind0
+case object ZShapeKind extends ShapeKind {
+  val color = new AWTColor(20, 239, 14)
+  val cells = List(
+    List((0, 0), (0, 1), (1, 1), (-1, 0)),
+    List((0, 0), (-1, 0), (-1, 1), (0, -1)),
+    List((0, 0), (0, 1), (1, 1), (-1, 0)),
+    List((0, 0), (-1, 0), (-1, 1), (0, -1))
+  )
+}
+
+case object SShapeKind extends ShapeKind {
+  val color = new AWTColor(20, 239, 14)
+  val cells = List(
+    List((0, 0), (-1, 0), (0, -1), (1, -1)),
+    List((0, 0), (0, -1), (1, 0), (1, 1)),
+    List((0, 0), (-1, 0), (0, -1), (1, -1)),
+    List((0, 0), (0, -1), (1, 0), (1, 1))
+  )
 }
 
 
-class Shape (_x: Int, _y: Int, k: ShapeKind) {
+class Shape (_x: Int, _y: Int, k: ShapeKind, ki: Int) {
   var x = _x
   var y = _y
 
-  val cells: List[(Int, Int)] = k match {
-    case IShapeKind0 => List((0, 0), (0, 1), (0, 2), (0, -1))
-    case IShapeKind1 => List((0, 0), (1, 0), (2, 0), (-1, 0))
-    case OShapeKind => List((0, 0), (1, 0), (1, 1), (0, 1))
-    case JShapeKind0 => List((0, 0), (0, 1), (0, -1), (-1, 1))
-    case JShapeKind1 => List((0, 0), (1, 0), (-1, 0), (-1, -1))
-    case JShapeKind2 => List((0, 0), (0, -1), (1, -1), (0, 1))
-    case JShapeKind3 => List((0, 0), (0, 0), (1, 0), (-1, 0), (-1, 1))
-  }
+  val shapeKindIndex: Int = ki % 4
 
-  def rotation = new Shape(x, y, k.rotation)
+  val cells = k.cells.apply(shapeKindIndex)
+  val color = k.color
 
-  def makeMove (dir: Direction) {
+  def rotation = new Shape(x, y, k, shapeKindIndex + 1)
+
+  /*def makeMove (dir:Direction) {
     x = x + dir.x
     y = y + dir.y
+  }*/
+
+  def makeMove (dir: Direction): Shape = {
+    dir match {
+      case Rotation => rotation
+      case _ => new Shape (x + dir.x, y + dir.y, k, shapeKindIndex)
+    }
   }
 }

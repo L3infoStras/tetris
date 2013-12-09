@@ -32,10 +32,10 @@ object ScalatrisGui extends SimpleSwingApplication {
     case Left | H => grid.move(DirLeft)
     case Right | L => grid.move(DirRight)
     case Down | J => grid.move(DirDown)
-    case Up | R | K => grid.rotate
+    case Up | R | K => grid.move(Rotation)
     case Space => grid.fall
     case Escape | Q => quit
-    case _ => println("Unknown key " ++ keyCode.toString)
+    case _ => 
   }
 
 

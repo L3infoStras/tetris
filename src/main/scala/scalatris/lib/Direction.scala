@@ -5,6 +5,9 @@ sealed abstract trait Direction {
   val y = 0
 }
 
+case object NoMove extends Direction {
+}
+
 case object DirRight extends Direction {
   override val x = 1
 }
@@ -15,4 +18,7 @@ case object DirLeft extends Direction {
 
 case object DirDown extends Direction {
   override val y = 1
+}
+
+case object Rotation extends Direction {
 }
