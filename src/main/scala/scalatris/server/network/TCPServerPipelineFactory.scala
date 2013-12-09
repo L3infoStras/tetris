@@ -1,4 +1,4 @@
-package scalatris.server
+package scalatris.server.network
 
 import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
@@ -13,7 +13,7 @@ import org.jboss.netty.handler.codec.string.StringEncoder
 /**
  * Creates a newly configured ChannelPipeline for a new channel.
  */
-class TelnetServerPipelineFactory extends ChannelPipelineFactory {
+class TCPServerPipelineFactory extends ChannelPipelineFactory {
 
   override def getPipeline: ChannelPipeline = {
     // Create a default pipeline implementation.
@@ -26,7 +26,7 @@ class TelnetServerPipelineFactory extends ChannelPipelineFactory {
     pipeline.addLast("encoder", new StringEncoder)
 
     // and then business logic.
-    pipeline.addLast("handler", new TelnetServerHandler)
+    pipeline.addLast("handler", new TCPServerHandler)
 
     pipeline
   }

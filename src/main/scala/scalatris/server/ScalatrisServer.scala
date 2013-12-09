@@ -3,6 +3,7 @@ package scalatris.server
 import scalatris._
 import scalatris.lib._
 import scalatris.server.ui._
+import scalatris.server.network._
 
 import swing._
 import event.Key._
@@ -11,8 +12,7 @@ import swing.event._
 
 import java.awt.{Color => AWTColor}
 
-
-object ScalatrisGui extends SimpleSwingApplication {
+object ScalatrisServer extends SimpleSwingApplication {
 
   val grid = new TetrisGrid(10, 20)
 
