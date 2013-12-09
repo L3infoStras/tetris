@@ -1,0 +1,101 @@
+% Created 2013-12-09 Mon 08:03
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\author{Simon Andreux, Julien Gamba, Clément Schreiner}
+\date{2013-12-08}
+\title{Implémentation en scala d'un tetris, avec intelligence artificielle}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.3.1 (Org mode 8.2.1)}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+
+\section{Introduction - Pourquoi Scala ?}
+\label{sec-1}
+
+ous n'aimons pas Java, notamment pour la verbosité du code.
+
+Clément, ayant un peu d'expérience en programmation fonctionnelle, a
+proposé scala, qui a l'avantage d'être entièrement objet, mais aussi
+de proposer des fonctionnalités qu'on trouve généralement dans les
+langages fonctionnels tels que le pattern matching et l'inférence de
+type.
+
+Il est de plus entièrement intéropérable avec Java, peut importer directement ses bibliothèques, et se compile en bytecode exécutable par la JVM.
+\section{Modélisation, structures de données}
+\label{sec-2}
+
+
+
+\section{Problèmes rencontrés}
+\label{sec-3}
+
+\subsection{Récupérer une ligne dans la matrice de la grille}
+\label{sec-3-1}
+
+L'ensemble des blocs de la grille (excepté la pièce courante, qui n'est pas fixe) est représenté par une matrice, implémentée sous forme d'Array d'Array.
+
+Ainsi, pour une matrice de 3x3:
+
+\begin{verbatim}
+scala> import Array.ofDim
+scala> var blocks = ofDim[Boolean](3, 3)
+blocks: Array[Array[Boolean]] = Array(Array(false, false, false),
+  Array(false, false, false),
+  Array(false, false, false))
+scala> val b = blocks(0)(2)
+b: Boolean = true
+\end{verbatim}
+
+\emph{b} correspond ici au bloc d'abscisse 0 et d'ordonnée 2, et \emph{blocks(0)} à la première colonne
+
+Pour vérifier la présence de lignes complètes, on a besoin de récupérer une ligne. Nous avons trouvé une solution fonctionnelle et élégante utilisant \emph{map}:
+
+\begin{verbatim}
+def getLine(blocks) = blocks.map(_(y))
+\end{verbatim}
+\subsection{Définir simplement les formes des pièces}
+\label{sec-3-2}
+
+Après plusieurs tentatives plus moins élégantes, nous avons finalement
+choisi une solution assez simple. Chaque forme est définie par un
+objet implémentant le trait ShapeKind, qui comport deux données: la
+couleur, et une liste de coordonnées relatives des blocs la composant,
+pour chaque orientation possible. Concrètement: une liste de liste de
+paires d'entiers.
+
+\section{Organisation}
+\label{sec-4}
+
+Nous avons réparti le travail ainsi :
+
+\begin{itemize}
+\item Simon : intelligence artificielle
+\item Julien : interface réseau entre la GUI et l'AI
+\item Clément : interface graphique
+\item Simon et Clément : structures de données représentant le jeu
+\end{itemize}
+
+Nous avons utilisé git pour faciliter la collaboration.
+% Emacs 24.3.1 (Org mode 8.2.1)
+\end{document}
