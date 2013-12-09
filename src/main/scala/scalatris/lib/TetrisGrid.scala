@@ -33,6 +33,10 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
 
   // fin initialisation
 
+/*  def this = {
+    this(12,22)
+  }*/
+
   def newShape {
     shape = new Shape(nbCols/2, 1,
       shapeKinds.apply(Random.nextInt(shapeKinds.length)),
@@ -47,10 +51,6 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
 
   def move(dir: Direction) {
     dir match {
-      case DirLeft | DirRight => {
-        if (moveIsPossible(dir))
-          shape.makeMove(dir)
-      }
       case DirDown => {
         if (moveIsPossible(dir))
           shape.makeMove(DirDown)
@@ -59,6 +59,14 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
           newShape
           checkLines
         }
+      }
+      case Rotation => {
+        if (rotationIsPossible)
+          shape.makeMove(Rotation)
+      }
+      case _ => {
+        if (moveIsPossible(dir))
+          shape.makeMove(dir)
       }
     }
 

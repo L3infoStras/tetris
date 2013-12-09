@@ -81,8 +81,15 @@ class Shape (_x: Int, _y: Int, k: ShapeKind, ki: Int) {
 
   def rotation = new Shape(x, y, k, shapeKindIndex + 1)
 
-  def makeMove (dir: Direction) {
+  /*def makeMove (dir:Direction) {
     x = x + dir.x
     y = y + dir.y
+  }*/
+
+  def makeMove (dir: Direction): Shape = {
+    dir match {
+      case Rotation => rotation
+      case _ => new Shape (x + dir.x, y + dir.y, k)
+    }
   }
 }
