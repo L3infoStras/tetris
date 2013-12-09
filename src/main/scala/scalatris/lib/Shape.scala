@@ -89,7 +89,7 @@ class Shape (_x: Int, _y: Int, k: ShapeKind, ki: Int) {
   def makeMove (dir: Direction): Shape = {
     dir match {
       case Rotation => rotation
-      case _ => new Shape (x + dir.x, y + dir.y, k)
+      case _ => new Shape (x + dir.x, y + dir.y, k, 0)
     }
   }
 }

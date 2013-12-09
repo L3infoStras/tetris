@@ -53,7 +53,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     dir match {
       case DirDown => {
         if (moveIsPossible(dir))
-          shape.makeMove(DirDown)
+          shape = shape.makeMove(DirDown)
         else {
           fixShape
           newShape
@@ -62,11 +62,11 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
       }
       case Rotation => {
         if (rotationIsPossible)
-          shape.makeMove(Rotation)
+          shape = shape.makeMove(Rotation)
       }
       case DirRight | DirLeft | NoMove => {
         if (moveIsPossible(dir))
-          shape.makeMove(dir)
+          shape = shape.makeMove(dir)
       }
     }
 
