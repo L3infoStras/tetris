@@ -9,6 +9,9 @@ import swing._
 import event.Key._
 import swing.event._
 
+import javax.swing.{AbstractAction, Timer => SwingTimer}
+import java.awt.event.ActionEvent
+
 
 import java.awt.{Color => AWTColor}
 
@@ -24,12 +27,61 @@ object ScalatrisServer extends SimpleSwingApplication {
 
   val canvas = new GridCanvas(grid)
 
+  var currentShape = grid.shape
+  var hasClient = false
+
+  def newTimer(interval: Int, op: => Unit): SwingTimer = {
+    val timeOut = new AbstractAction() {
+      def actionPerformed(e : ActionEvent) = op
+    }
+    val t = new SwingTimer(interval, timeOut)
+    t.setRepeats(true)
+    t.start
+    t
+  }
+
+  def gravity {
+    grid.move(DirDown)
+  }
+  val gravityTimer = newTimer(1000, gravity)
+
+  /*
+   * Timer principal, qui s'occupe de surveiller les changements de
+   * formes, et les connexions/déconnexions de l'AI
+   * 
+   * Tout cela est bien sale. Il aurait été plus judicieux
+   * d'utiliser un système équivalents aux signals-slots de Qt, il y
+   * en a plusieurs pour scala, mais on a pas eu le temps de les
+   * étudier.
+   */
+  def update {
+    // on regarde si la forme a changé
+    if (grid.shapeChanged) {
+      tcpHandler.send(grid.shape.toString)
+      grid.shapeChanged = false
+    }
+
+    // on vérifie si le client s'est connecté
+    // ou déconnecté
+    if (tcpHandler.hasClient != hasClient) {
+      hasClient = tcpHandler.hasClient
+      tcpHandler.send("PROUUUUT")
+      hasClient match {
+        case true => gravityTimer.stop
+        case false => gravityTimer.start
+      }
+
+    }
+  }
+
+  val mainTimer = newTimer(100, update)
+
   def top = new MainFrame {
     title = "Scalatris"
     contents = mainPanel
     }
 
-  def onKeyPress(keyCode: Value) = keyCode match {
+  def onKeyPress(keyCode: Value) = if (!hasClient) keyCode match {
     case Left | H => grid.move(DirLeft)
     case Right | L => grid.move(DirRight)
     case Down | J => grid.move(DirDown)
@@ -38,11 +90,6 @@ object ScalatrisServer extends SimpleSwingApplication {
     case Escape | Q => quit
     case _ => 
   }
-
-  val timer = Timer(2000/(2*(grid.level+1))) {
-    grid.move(DirDown)
-  }
-
 
   def mainPanel = new BoxPanel(Orientation.Horizontal) {
     preferredSize = new Dimension(640, 480)
@@ -53,7 +100,7 @@ object ScalatrisServer extends SimpleSwingApplication {
 
     listenTo(keys)
 
-    val timer = Timer(100) { repaint }
+    val timer = newTimer(100, repaint)
 
     reactions += {
       case KeyPressed(_, key, _, _) =>
@@ -62,6 +109,10 @@ object ScalatrisServer extends SimpleSwingApplication {
   }
 
   override def quit {
+    mainPanel.timer.stop
+    gravityTimer.stop
+    mainTimer.stop
+    super.shutdown
     super.quit
   }
 }
