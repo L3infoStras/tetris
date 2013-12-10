@@ -27,10 +27,12 @@ object AIClient {
       aig = AI.computeAI (new AIgrid(aig))
 
       aig.printGrid
+      println(aig.moveList)
       aig.moveList.foreach(d => {
         tcpHandler.send(d.toString)
       }) 
       tcpHandler.send("fall") // on fait tomber la piece sur le serveur
+      aig.moveList=Nil // c'est sale mais c'est pour tester 
 
     }
   }

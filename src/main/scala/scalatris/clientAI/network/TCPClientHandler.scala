@@ -27,7 +27,7 @@ class TCPClientHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler {
     val data = e.getMessage.toString
     val s = data match {
       case "I" | "J" | "L" | "O" | "S" | "T" | "Z" => {
-        grid.shape = Shape.fromString(data, 5, 1)
+        grid.shape = Shape.fromString(data, 6, 1)
         println("new shape: " ++ grid.shape.toString)
         grid.shapeChanged = true
       }
