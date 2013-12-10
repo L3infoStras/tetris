@@ -23,7 +23,7 @@ object TCPClient {
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {
       override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(new EchoClientHandler(firstMessageSize))
+        Channels.pipeline(new EchoClientHandler)
       }
     })
 
