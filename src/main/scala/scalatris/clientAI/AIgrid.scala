@@ -4,19 +4,55 @@ import scalatris.lib._
 import Array._
 import scala.util._
 
+// on génère désormais la liste des entrées dans AIgrid
+class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
+  //init
+  dir match {
+    case Some(dir) => shape = grid.shape.makeMove(dir) 
+    case None => shape = grid.shape
+  }
+  blocks = ofDim[Boolean](nbCols,nbRows)
+  for {
+    i <- 0 until nbCols
+    j <- 0 until nbRows
+  } blocks (i) (j) =  grid.blocks (i) (j) // on copie l'array var 
+  //fin init
+    
+  // caractères d'entrée
+  val left = 'q'
+  val right = 'd'
+  val bot = 's'
+  val rot = 'z'
 
-class AIgrid (tetGrid:TetrisGrid,dir:Direction) extends TetrisGrid(10,20) {
-  shape = tetGrid.shape.makeMove(dir) 
-  blocks = tetGrid.blocks.clone // on copie l'array 
-
+  // coefficient de la fonction eval
   val coefHole: Double = -2.31
   val coefClear: Double = 1.6
   val coefHeight: Double = -3.78
   val coefBlockade: Double = -0.59
 
-  def this (tetGrid:TetrisGrid) = {
-    this(tetGrid,NoMove)
+  // memoire des entrées
+  override val moveList: List[Char] = {
+    dir match { 
+      case Some(dir) => grid.moveList :+ lastMove(dir)
+      case None => grid.moveList
+    }
   }
+
+  // fonction de sélection des entrées
+  def lastMove (d:Direction): Char = {
+    d match {
+      case DirRight => right
+      case DirLeft => left
+      case DirDown => bot
+      case Rotation => rot
+    }
+  }
+
+  // constructeur simple
+  def this (grid:TetrisGrid) = {
+    this(grid,None)
+  }
+
 
   // Evalue la grille et renvoit un score
   def eval: Double = {
@@ -35,6 +71,3 @@ class AIgrid (tetGrid:TetrisGrid,dir:Direction) extends TetrisGrid(10,20) {
     ((1 to 10) map (j => evalAux (j,1) (0,0,0,0) (0))) reduceLeft (_+_)
   }
 }
-
-
-

@@ -37,6 +37,9 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     this(12,22)
   }*/
 
+  // utile pour l'ia seulement temporaire 
+  val moveList: List[Char] = Nil
+
   def newShape {
     shape = new Shape(nbCols/2, 1,
       shapeKinds.apply(Random.nextInt(shapeKinds.length)),
@@ -64,7 +67,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
         if (rotationIsPossible)
           shape = shape.makeMove(Rotation)
       }
-      case DirRight | DirLeft | NoMove => {
+      case _ => {
         if (moveIsPossible(dir))
           shape = shape.makeMove(dir)
       }
@@ -143,14 +146,15 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   }
 
   def printGrid: Unit= {
-      for (i <- 0 until nbRows) {
-        for (j <- 0 until nbCols) {
-          blocks (j) (i) match {
-            case true => print(". ")
-            case false => print("_ ")
-          }
+    for (i <- 0 until nbRows) {
+      for (j <- 0 until nbCols) {
+        blocks (j) (i) match {
+          case true => print("# ")
+          case false => print("_ ")
         }
-        println()
       }
+      println()
+    }
+    println()
   }
 }

@@ -92,6 +92,8 @@ class Shape (_x: Int, _y: Int, k: ShapeKind, ki: Int) {
   val cells = k.cells.apply(shapeKindIndex)
   val color = k.color
 
+  def equals (s:Shape) = (cells == s.cells)
+
   def rotation = new Shape(x, y, k, shapeKindIndex + 1)
 
   /*def makeMove (dir:Direction) {

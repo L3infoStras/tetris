@@ -11,10 +11,23 @@ object Main {
       for (i <- 0 until 2) g.blocks (i) (16)=true
 //      var input: Char = Console.readChar
       //g.blocks (10) (1) = true
-      g.printGrid
-      val aig = new AIgrid(g)
-      println(aig.eval)
-      println(AI.computeAI(aig))
+      val aigList: List[AIgrid] = AI.listGridWithRot(new AIgrid(g))  
+/*      val aig2 = new AIgrid(new AIgrid(aig,DirLeft))  
+      val aig3 = new AIgrid(new AIgrid(aig2,DirLeft))  
+      val aig4 = new AIgrid(new AIgrid(aig3,DirLeft))  
+      aig.fall
+      aig.printGrid
+      aig2.fall
+      aig2.printGrid
+      aig3.fall
+      aig3.printGrid
+      aig4.fall
+      aig4.printGrid */
+      aigList map (g => { g.printGrid ; println(g.eval) ; println (g.moveList)} ) 
+      val aig: AIgrid = AI.computeAI (new AIgrid(g))
+      aig.printGrid ; println(aig.eval) ; println (aig.moveList) ;
+      //println(aig.eval)
+      //println(AI.computeAI(aig))
 /*      while(input!='r')
       {
         input=Console.readChar

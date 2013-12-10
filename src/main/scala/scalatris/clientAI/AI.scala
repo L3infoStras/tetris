@@ -5,70 +5,53 @@ import Array._
 import scala.util._
 
 object AI {
-  val left = 'q'
-  val right = 'd'
-  val bot = 's'
-  val rot = 'z'
+  // Déplace la forme jusqu'en bas de la grille
+  def fallBot (aigrid:AIgrid): AIgrid = { 
+    aigrid.fall
+    aigrid
+   }
 
-  // Genere une liste de couple (grille, entrees) 
-  // pour une ligne selon une rotation particulière
-  def listGrid (ag:AIgrid) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
-    // Déplace la forme jusqu'en bas de la grille et enregistre les entrées
-    // en meme temps
-    def reachBot (aig:AIgrid, mvl:List[Char]): (AIgrid,List[Char]) = {
-      if(aig.moveIsPossible(DirDown)) { 
-        aig.move(DirDown)
-        reachBot (aig,       // pas besoin de copier cette grille la
-                 mvl :+ bot) // enfin je crois :)
-      }
-      else {
-        aig.fixShape
-        aig.printGrid
-        println(aig.eval)
-        println(mvl)
-        (aig,preInput++mvl)
-      }
-    }
-    // En partant de la forme actuelle genère une liste de forme vers la gauche
-    // ainsi que les entrées associées aux déplacements
-    def reachLeft (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
-      if(aig.moveIsPossible(DirLeft))
-        reachLeft (new AIgrid(aig,DirLeft),
-                  left::mvl) :+ reachBot (aig, mvl)
-      else List(reachBot (aig, mvl))
-    }
-    // En partant de la forme actuelle genère une liste de forme vers la droite
-    // ainsi que les entrées associées aux déplacements
-    def reachRight (aig:AIgrid, mvl:List[Char]): List[(AIgrid,List[Char])] = {
-      if(aig.moveIsPossible(DirRight))
-        reachRight (new AIgrid(aig,DirRight),
-                   right::mvl) :+ reachBot (aig, mvl)
-      else List(reachBot (aig, mvl))
-    }
-    reachLeft (new AIgrid (ag,DirLeft),List(left)) ++ reachRight (new AIgrid(ag),Nil)
+  // Déplace la forme vers la droite et appelle reachBot a chaque appel 
+  // récursif
+  // Des préconditions ca serait super la-dessus (seul dir=DirLeft | DirRight)
+  def reach (aigrid: AIgrid) (dir:Direction): List[AIgrid] = {
+    fallBot(new AIgrid(aigrid)) ::
+    (if(aigrid.moveIsPossible(dir)) 
+       reach (new AIgrid(aigrid,Some(dir))) (dir)
+    else Nil)
   }
 
-  // Genere la liste pour toutes les rotations de la forme actuelle
-  def listWithRot (ag:AIgrid): List[(AIgrid, List[Char])] = {
-    // parcours la liste des rotations possible jusqu'a revenir à la premiere
-    def listRot (aig:AIgrid) (shStop:Shape) (preInput:List[Char]): List[(AIgrid, List[Char])] = {
-      if((aig.shape!=shStop) && aig.rotationIsPossible) {
-        listGrid (new AIgrid(aig)) (preInput) ++ 
-        listRot (new AIgrid(aig,Rotation)) (shStop) (preInput :+ rot)
-      }
-      else Nil
-    }
-    listGrid (new AIgrid(ag)) (Nil) ++ 
-    listRot (new AIgrid(new AIgrid(ag,DirDown),Rotation)) (ag.shape) (List(bot,rot))
+  // Génére une liste de grille pour seulement un type de rotation
+  def listGrid (aigrid:AIgrid): List[AIgrid] = {
+    reach (new AIgrid (aigrid,Some(DirLeft))) (DirLeft) ++ 
+    reach (new AIgrid (aigrid)) (DirRight)
   }
 
-  // Calcule la meilleure grille et renvoit la séquence d'entrées associées
-  def computeAI (ag:AIgrid): List[Char] = {
-    def choseVal (v1:(Double,List[Char]),v2:(Double,List[Char])): (Double,List[Char]) = {
-      if (v1._1>v2._1) v1
-      else v2
+  // Génére une liste de grille cette fois avec les rotations
+  def listGridWithRot (aigrid:AIgrid): List[AIgrid] = {
+    // appel listGrid sur les différentes rotations possibles de la forme
+    // actuelle
+    def listRot (aig:AIgrid) (shapeStop:Shape): List [AIgrid] = {
+      if(!shapeStop.equals(aig.shape) && aig.rotationIsPossible)
+        listGrid(aig) ++ listRot(new AIgrid (aig,Some(Rotation))) (shapeStop) 
+      else 
+        Nil
     }
-    val gridList = listWithRot (new AIgrid(ag)) 
-    ((gridList map (v => (v._1.eval,v._2))) reduceLeft (choseVal (_,_)))._2
+    // on concatène toutes les listes ensembles
+    listGrid (aigrid) ++ 
+    (if(aigrid.rotationIsPossible) 
+      listRot (new AIgrid(aigrid,Some(Rotation))) (aigrid.shape)
+    else Nil)
+  }
+
+  // calcule l'ia et renvoit la grille avec le meilleur score
+  def computeAI (aigrid:AIgrid): AIgrid = {
+    // De deux grilles renvoit celle dont le score est supérieur a l'autre
+    def choseGrid (g:AIgrid,h:AIgrid): AIgrid = {
+      if (g.eval>h.eval) g
+      else h
+    }
+    // reduceLeft sur la liste avec la fonction choseGrid
+    (listGridWithRot (aigrid)) reduceLeft (choseGrid (_,_))
   }
 }
