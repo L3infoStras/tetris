@@ -2,18 +2,18 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{fixltx2e}
+% \usepackage{fixltx2e}
 \usepackage{graphicx}
-\usepackage{longtable}
+%\usepackage{longtable}
 \usepackage{float}
-\usepackage{wrapfig}
-\usepackage{rotating}
-\usepackage[normalem]{ulem}
-\usepackage{amsmath}
-\usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
-\usepackage{amssymb}
+%\usepackage{wrapfig}
+%\usepackage{rotating}
+%\usepackage[normalem]{ulem}
+%\usepackage{amsmath}
+%\usepackage{textcomp}
+%\usepackage{marvosym}
+%\usepackage{wasysym}
+%\usepackage{amssymb}
 \usepackage{hyperref}
 \tolerance=1000
 \author{Simon Andreux, Julien Gamba, Clément Schreiner}
@@ -103,18 +103,57 @@ couleur, et une liste de coordonnées relatives des blocs la composant,
 pour chaque orientation possible. Concrètement: une liste de liste de
 paires d'entiers.
 
+\section{Intelligence artificielle}
+
+\subsection{Fonctionnement}
+
+L'Intelligence Artificielle a été conçu en bottom-up.  La classe AI
+s'occupe de générer une liste exhaustive de toutes les grilles
+possibles pouvant être obtenues à partir d'une seule forme.  Pour
+cela, elle crée des copies à gauche, à droite (fonction reach) de la
+grille pour la forme initiale.
+
+Ensuite, elle effectue cette opération pour toutes les rotations
+possibles (fonction listGrid et listGridWithRot) de la forme actuelle
+de la grille.  Enfin, l'ia calcule un score pour chaque grille
+(méthode eval) et renvoit la grille qui a réalisé le meilleur score en
+utilisant un algorithme map/reduce.
+
+\subsection{Evaluation}
+
+L'évaluation a consisté à attribuer un score à chaque grille en fonction
+de différents critères:
+
+\begin{itemize}
+ \item la hauteur des blocs 
+ \item le nombre de trous dans la grille
+ \item les blocs considérés comme genant (au-dessus d'un trou)
+ \item la densité des blocs (nombre de voisin, etc)
+\end{itemize}
+
+\subsection{Améliorations possibles}
+
+Il est possible d'évaluer les blocs différemment en fonction de leur
+type.
+
+Par ailleurs, les différentes valeurs utilisées pour paramétrer l'IA
+ne sont pas excellentes, il serait possible de concevoir un algorithme
+génétique distribué afin de les calculer.
+
 \section{Organisation}
 \label{sec-5}
 
 Nous avons réparti le travail ainsi :
 
 \begin{itemize}
-\item Simon : intelligence artificielle
-\item Julien : interface réseau entre la GUI et l'AI
-\item Clément : interface graphique
-\item Simon et Clément : structures de données représentant le jeu
+  \item Simon : intelligence artificielle
+  \item Julien : début de l'interface réseau entre la GUI et l'AI
+  \item Clément : interface graphique, interface réseau 
+  \item Simon et Clément : structures de données représentant le jeu
+
 \end{itemize}
 
 Nous avons utilisé git pour faciliter la collaboration.
+
 % Emacs 24.3.1 (Org mode 8.2.1)
 \end{document}
