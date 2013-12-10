@@ -43,7 +43,7 @@ object ScalatrisServer extends SimpleSwingApplication {
   def gravity {
     grid.move(DirDown)
   }
-  val gravityTimer = newTimer(1000, gravity)
+  //val gravityTimer = newTimer(1000, gravity)
 
   /*
    * Timer principal, qui s'occupe de surveiller les changements de
@@ -65,17 +65,16 @@ object ScalatrisServer extends SimpleSwingApplication {
     // ou déconnecté
     if (tcpHandler.hasClient != hasClient) {
       hasClient = tcpHandler.hasClient
-      hasClient match {
-        case true => gravityTimer.stop
-        case false => gravityTimer.start
-      }
+//      hasClient match {
+//        case true => gravityTimer.stop
+//        case false => gravityTimer.start
+//      }
     }
   }
 
   grid.newShape
 
   val mainTimer = newTimer(100, update)
-
   def top = new MainFrame {
     title = "Scalatris"
     contents = mainPanel
@@ -118,7 +117,7 @@ object ScalatrisServer extends SimpleSwingApplication {
 
   override def quit {
     mainPanel.timer.stop
-    gravityTimer.stop
+    // gravityTimer.stop
     mainTimer.stop
     super.shutdown
     super.quit
