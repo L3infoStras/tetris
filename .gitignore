@@ -1,2 +1,8 @@
 target/
 *~
+/rapport.aux
+/rapport.log
+/rapport.org
+/rapport.out
+/rapport.pdf
+/rapport.toc

@@ -89,9 +89,8 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
             evalAux (abs,ord+1) (nbHoles,nbBlockades,nbClears+1,normal) (acc)
         }
       }
-      else acc+nbHoles*coefHole+nbBlockades*coefBlockade+nbClears*coefClear
+      else acc + nbHoles*coefHole + nbBlockades*coefBlockade+nbClears*coefClear
     }
     ((1 to 10) map (j => evalAux (j,1) (0,0,0,0) (0))) reduceLeft (_+_)
   }
-
 }
