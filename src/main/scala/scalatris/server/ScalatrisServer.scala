@@ -24,10 +24,6 @@ object ScalatrisServer extends SimpleSwingApplication {
 
   val canvas = new GridCanvas(grid)
 
-  val label =  new Label {
-      text = "No click yet"
-  }
-
   def top = new MainFrame {
     title = "Scalatris"
     contents = mainPanel
@@ -51,7 +47,6 @@ object ScalatrisServer extends SimpleSwingApplication {
   def mainPanel = new BoxPanel(Orientation.Horizontal) {
     preferredSize = new Dimension(640, 480)
     contents += canvas
-    contents += label
 
     focusable = true
     requestFocus
