@@ -9,21 +9,20 @@ import org.jboss.netty.channel.{ ChannelFuture, ChannelPipeline, ChannelPipeline
 
 
 class TCPClient (tcpPF: ChannelPipelineFactory) {
-    val host = "127.0.0.1"
-    val port = 9000
+  val host = "127.0.0.1"
+  val port = 9000
 
-    // Configure the client
-    val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+  // Configure the client
+  val bootstrap = new ClientBootstrap(
+    new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
 
-    bootstrap.setPipelineFactory(tcpPF)
+  bootstrap.setPipelineFactory(tcpPF)
 
-    // Start the connection attempt.
-    val future = bootstrap.connect(new InetSocketAddress(host, port))
+  // Démarre la connexion
+  val future = bootstrap.connect(new InetSocketAddress(host, port))
 
-    // Wait until the connection is closed or the connection attempt fails.
-    future.getChannel.getCloseFuture.awaitUninterruptibly
+  val channel = connectFuture.awaitUninterruptibly.getChannel
 
-    // Shut down thread pools to exit.
-    bootstrap.releaseExternalResources()
+  // Shut down thread pools to exit.
+  bootstrap.releaseExternalResources()
 }
