@@ -12,12 +12,10 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
     case Some(dir) => shape = grid.shape.makeMove(dir) 
     case None => shape = grid.shape
   }
-  blocks = ofDim[Boolean](nbCols,nbRows)
-  for {
-    i <- 0 until nbCols
-    j <- 0 until nbRows
-  } blocks (i) (j) =  grid.blocks (i) (j) // on copie l'array var 
-  //fin init
+
+  // copie profonde de la matrice de la grille
+  blocks = grid.blocks.map(_.clone)
+  // fin init
  
   // memoire des entrées
   moveList = {
