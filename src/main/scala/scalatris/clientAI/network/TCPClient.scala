@@ -25,6 +25,4 @@ class TCPClient (tcpPF: ChannelPipelineFactory) {
     bootstrap.releaseExternalResources()
   }
 
-//  channel.close().awaitUninterruptibly
-//  bootstrap.releaseExternalResources()
 }
