@@ -33,12 +33,8 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
 
   // fin initialisation
 
-/*  def this = {
-    this(12,22)
-  }*/
-
-  // utile pour l'ia seulement temporaire 
-  val moveList: List[Char] = Nil
+  // utile pour l'ia  
+  var moveList: List[Char] = Nil
 
   def newShape {
     shape = new Shape(nbCols/2, 1,

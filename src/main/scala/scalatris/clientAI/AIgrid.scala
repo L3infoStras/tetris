@@ -5,6 +5,7 @@ import Array._
 import scala.util._
 
 // on génère désormais la liste des entrées dans AIgrid
+// mvList s'utilise pour remettre la liste a zero
 class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   //init
   dir match {
@@ -18,20 +19,23 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   } blocks (i) (j) =  grid.blocks (i) (j) // on copie l'array var 
   //fin init
  
-  // memoire des entrées
-  override val moveList: List[Char] = {
-    dir match { 
-      case Some(dir) => grid.moveList :+ lastMove(dir)
-      case None => grid.moveList
-    }
-  }
-   
   // caractères d'entrée
   val left = 'q'
   val right = 'd'
   val bot = 's'
   val rot = 'z'
 
+  // memoire des entrées
+  moveList = {
+    dir match { 
+      case Some(dir) => grid.moveList :+ lastMove(dir)
+      case None => grid.moveList  
+    }
+  }
+
+  def printList: Unit = 
+    moveList map (println(_))
+   
   // coefficient de la fonction eval
   val coefHole: Double = -2.31
   val coefClear: Double = 1.6

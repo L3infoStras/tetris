@@ -14,11 +14,13 @@ object Main {
       while(input!='r')
       { 
         aig = AI.computeAI (new AIgrid(aig))
-        aig.printGrid ; println(aig.eval) ; println (aig.moveList) ;
+        aig.printGrid ; println(aig.eval) ; println (aig.moveList) ; 
+        // /!\ il faut remettre moveList a zero manuellement sinon la liste grossie artificiellement comme son intelligence
+        aig.moveList=Nil
         input = Console.readChar()
       }
-      val aigList: List[AIgrid] = AI.listGridWithRot(new AIgrid(g))  
-      aigList map (g => { g.printGrid ; println(g.eval) ; println (g.moveList)} ) 
+      //val aigList: List[AIgrid] = AI.listGridWithRot(new AIgrid(g))  
+      //aigList map (g => { g.printGrid ; println(g.eval) ; println (g.moveList)} ) 
     }
 }
 
