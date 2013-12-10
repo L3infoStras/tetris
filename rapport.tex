@@ -33,7 +33,7 @@
 \section{Introduction - Pourquoi Scala ?}
 \label{sec-1}
 
-ous n'aimons pas Java, notamment pour la verbosité du code.
+Nous n'aimons pas Java, notamment pour la verbosité du code.
 
 Clément, ayant un peu d'expérience en programmation fonctionnelle, a
 proposé scala, qui a l'avantage d'être entièrement objet, mais aussi
@@ -45,13 +45,32 @@ Il est de plus entièrement intéropérable avec Java, peut importer directement
 \section{Modélisation, structures de données}
 \label{sec-2}
 
+\section{Interface réseau}
+\label{sec-3}
+Pour assurer la communication entre l'IA et la partie graphique du
+projet, nous avons choisi de passer par un serveur TCP.
 
+Scala propose plusieurs bibliothèques. Nous avons retenu \texttt{Netty}
+pour ce projet. Elle est assez standard, et est donc très bien documentée.
+Elle utlise des bibliothèques Java, ce qui impose d'utiliser des
+méthodes Java directement dans le code Scala.
+
+En soi, ce n'est pas très contraignant, mais cela peut poser certains
+problèmes dans certains cas. Par exemple, dans notre programme, un fois
+le serveur lancé, il est possible pour l'utilisateur -- et plus
+particulièrement pour l'IA -- d'envoyer des messages au serveur
+directement sous forme de \texttt{String}. Ces \texttt{String}s 
+passent par un buffer (un \texttt{BigEndianHeapChannelBuffer}), 
+qui encode les \texttt{String}s et les rend illisibles sans 
+traitement préalable. Cela impose l'utilisation d'un handler qui va agir au
+niveau de la \texttt{PipelineFactory} pour décoder les flux et les rendre 
+utilisables.
 
 \section{Problèmes rencontrés}
-\label{sec-3}
+\label{sec-4}
 
 \subsection{Récupérer une ligne dans la matrice de la grille}
-\label{sec-3-1}
+\label{sec-4-1}
 
 L'ensemble des blocs de la grille (excepté la pièce courante, qui n'est pas fixe) est représenté par une matrice, implémentée sous forme d'Array d'Array.
 
@@ -75,7 +94,7 @@ Pour vérifier la présence de lignes complètes, on a besoin de récupérer une
 def getLine(blocks) = blocks.map(_(y))
 \end{verbatim}
 \subsection{Définir simplement les formes des pièces}
-\label{sec-3-2}
+\label{sec-4-2}
 
 Après plusieurs tentatives plus moins élégantes, nous avons finalement
 choisi une solution assez simple. Chaque forme est définie par un
@@ -85,7 +104,7 @@ pour chaque orientation possible. Concrètement: une liste de liste de
 paires d'entiers.
 
 \section{Organisation}
-\label{sec-4}
+\label{sec-5}
 
 Nous avons réparti le travail ainsi :
 
