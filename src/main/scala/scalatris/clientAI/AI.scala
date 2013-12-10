@@ -47,11 +47,11 @@ object AI {
   // calcule l'ia et renvoit la grille avec le meilleur score
   def computeAI (aigrid:AIgrid): AIgrid = {
     // De deux grilles renvoit celle dont le score est supérieur a l'autre
-    def choseGrid (g:AIgrid,h:AIgrid): AIgrid = {
+    def chooseGrid (g:AIgrid,h:AIgrid): AIgrid = {
       if (g.eval>h.eval) g
       else h
     }
     // reduceLeft sur la liste avec la fonction choseGrid
-    (listGridWithRot (aigrid)) reduceLeft (choseGrid (_,_))
+    (listGridWithRot (aigrid)) reduceLeft (chooseGrid (_,_))
   }
 }
