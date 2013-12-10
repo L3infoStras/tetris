@@ -14,24 +14,24 @@ object AIClient {
     val tcpPF = new TCPServerPipelineFactory(tcpHandler)
     val tcpClient = new TCPClient(tcpPF)
 
-    while (!grid.shapeChanged) {
-      java.lang.Thread.sleep(100)
-    }
-
-    println("grille -> " ++ grid.shape.toString)
     var aig = new AIgrid(grid)
-    grid.shapeChanged = false
-    aig = AI.computeAI(aig)
-    var moveList = aig.moveList
-    moveList.foreach(d => println(d))
-    aig.printGrid
 
-/*    while(!aig.gameLost) {
-      if (grid.shapeChanged)
-        aig.printGrid
-      println(aig.moveList)
-      java.lang.Thread.sleep(1000)
- }
- */
+    while (!grid.gameLost) {
+      while (!grid.shapeChanged) {
+        java.lang.Thread.sleep(100)
+      }
+
+      aig.shape = grid.shape
+      grid.shapeChanged = false // on a pris en compte la nouvelle forme
+
+      aig = AI.computeAI (new AIgrid(aig))
+
+      aig.printGrid
+      aig.moveList.foreach(d => {
+        tcpHandler.send(d.toString) // on envoie les directions au serveur
+        grid.move(d)}) // on applique les directions sur la grille locale
+      tcpHandler.send("fall") // on fait tomber la piece sur le serveur
+      grid.fall               // et sur la grille locale
+    }
   }
 }

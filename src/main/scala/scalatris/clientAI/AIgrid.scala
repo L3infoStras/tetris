@@ -18,14 +18,12 @@ class AIgrid (grid:TetrisGrid, dir:Option[Direction]) extends TetrisGrid(10,20) 
   // fin init
  
   // memoire des entrées
-  moveList = {
-    dir match { 
-      case Some(dir) => grid.moveList :+ lastMove(dir)
-      case None => grid.moveList  
-    }
+  moveList = dir match { 
+    case Some(dir) => grid.moveList :+ lastMove(dir)
+    case None => grid.moveList
   }
 
-  def printList: Unit = 
+  def printList: Unit =
     moveList map (println(_))
    
   // coefficient de la fonction eval
@@ -38,11 +36,11 @@ class AIgrid (grid:TetrisGrid, dir:Option[Direction]) extends TetrisGrid(10,20) 
   val bonusSide: Double = 2
 
   // fonction de sélection des entrées
-  def lastMove (d:Direction): String = d.toString
+  def lastMove (d:Direction): Direction = d
 
   // constructeur simple
   def this (grid:TetrisGrid) = {
-    this(grid,None)
+    this(grid, None)
   }
 
   // fonction de bonus pour les blocks
