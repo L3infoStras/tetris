@@ -124,5 +124,6 @@ object ScalatrisServer extends SimpleSwingApplication {
     mainTimer.stop
     super.shutdown
     super.quit
+    System.exit(0)
   }
 }

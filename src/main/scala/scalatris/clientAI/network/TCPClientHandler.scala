@@ -30,7 +30,10 @@ class TCPClientHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler {
         println("new shape: " ++ grid.shape.toString)
         grid.shapeChanged = true
       }
-      case "lost" => channel.close()
+      case "lost" => {
+        channel.close()
+        System.exit(0)
+      }
       case _ => 
     }
   }
