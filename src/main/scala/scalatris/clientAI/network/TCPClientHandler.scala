@@ -19,7 +19,6 @@ class TCPClientHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler {
 
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent)
   {
-    println("Connected. " ++ e.getChannel.toString)
     channel = e.getChannel
   }
   
@@ -31,7 +30,8 @@ class TCPClientHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler {
         println("new shape: " ++ grid.shape.toString)
         grid.shapeChanged = true
       }
-      case _ => println("woopsy daisy")
+      case "lost" => channel.close()
+      case _ => 
     }
   }
 
