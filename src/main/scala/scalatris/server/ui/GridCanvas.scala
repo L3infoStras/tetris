@@ -12,6 +12,8 @@ import java.awt.geom.Line2D
 class GridCanvas(val grid: TetrisGrid) extends Component {
 
   // on définit quelques couleurs...
+  val white = new AWTColor(200, 200, 200)
+  val red = new AWTColor(200, 40, 10)
   val lightBlack = new AWTColor(5, 5, 5)
   val bluishGray = new AWTColor(48, 99, 99)
   val bluishSilver = new AWTColor(210, 255, 255)
@@ -63,8 +65,8 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
       (grid.nbRows - 1)*cellSize)
 
 
-    
-    drawShape(grid.shape)
+    if (!grid.gameLost)
+      drawShape(grid.shape)
 
 
 
@@ -85,5 +87,19 @@ class GridCanvas(val grid: TetrisGrid) extends Component {
     // une ligne noire pour cacher la ligne avant la grille
     g.setColor(lightBlack)
     g.fillRect(0, 0, size.width, cellSize)
+
+
+    g.setColor(white)
+    g.drawString("Score: " ++ grid.score.toString,
+      (grid.nbCols + 2)*cellSize, 5*cellSize)
+
+    g.setColor(red)
+    if (grid.gameLost) {
+      g.drawString("Vous avez perdu.",
+        (grid.nbCols + 1)*cellSize, 7*cellSize)
+      g.drawString("Quittez le jeu avec 'q'.",
+        (grid.nbCols + 1)*cellSize, 8*cellSize)
+    }
+
   }
 }

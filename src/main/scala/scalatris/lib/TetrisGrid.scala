@@ -47,8 +47,9 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     shape = new Shape(nbCols/2, 1,
       shapeKinds.apply(Random.nextInt(shapeKinds.length)),
       0)
-    if (!moveIsPossible(DirDown))
+    if (!moveIsPossible(DirDown)) {
       gameLost = true
+    }
   }
 
   def fixShape {

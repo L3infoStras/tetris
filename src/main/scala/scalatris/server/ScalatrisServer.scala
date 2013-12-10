@@ -70,7 +70,6 @@ object ScalatrisServer extends SimpleSwingApplication {
         case true => gravityTimer.stop
         case false => gravityTimer.start
       }
-
     }
   }
 
@@ -81,14 +80,22 @@ object ScalatrisServer extends SimpleSwingApplication {
     contents = mainPanel
     }
 
-  def onKeyPress(keyCode: Value) = if (!hasClient) keyCode match {
-    case Left | H => grid.move(DirLeft)
-    case Right | L => grid.move(DirRight)
-    case Down | J => grid.move(DirDown)
-    case Up | R | K => grid.move(Rotation)
-    case Space => grid.fall
-    case Escape | Q => quit
-    case _ => 
+  def onKeyPress(keyCode: Value) {
+    if (!hasClient) { 
+      if (!grid.gameLost) keyCode match {
+        case Left | H => grid.move(DirLeft)
+        case Right | L => grid.move(DirRight)
+        case Down | J => grid.move(DirDown)
+        case Up | R | K => grid.move(Rotation)
+        case Space => grid.fall
+        case Escape | Q => quit
+        case _ =>
+      }
+      else keyCode match {
+        case Escape | Q => quit
+        case _ =>
+      }
+    }
   }
 
   def mainPanel = new BoxPanel(Orientation.Horizontal) {
