@@ -12,17 +12,15 @@ class TCPClient (tcpPF: ChannelPipelineFactory) {
   val host = "127.0.0.1"
   val port = 9000
 
-  // Configure the client
   val bootstrap = new ClientBootstrap(
     new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
 
   bootstrap.setPipelineFactory(tcpPF)
 
-  // Démarre la connexion
+  println("Connecting...")
   val future = bootstrap.connect(new InetSocketAddress(host, port))
 
-  val channel = connectFuture.awaitUninterruptibly.getChannel
+  val channel = future.awaitUninterruptibly.getChannel
 
-  // Shut down thread pools to exit.
   bootstrap.releaseExternalResources()
 }
