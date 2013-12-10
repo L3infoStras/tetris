@@ -27,7 +27,7 @@ class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
 
   def send(s: String) {
     if (hasClient)
-      channel.write(s)
+      channel.write(s ++ "\n")
   }
 
 
@@ -37,6 +37,8 @@ class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent){
     if (channel == null)
       channel = e.getChannel
+    println("New client, sending: " ++ grid.shape.toString)
+    send(grid.shape.toString)
   }
 
   override def channelDisconnected(ctx: ChannelHandlerContext, e: ChannelStateEvent){

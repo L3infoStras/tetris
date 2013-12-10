@@ -40,14 +40,18 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   // utile pour l'ia  
   var moveList: List[Direction] = Nil
 
-  def newShape {
+  def setShape (k: Int) {
     shapeChanged = true
     shape = new Shape(nbCols/2, 1,
-      shapeKinds.apply(Random.nextInt(shapeKinds.length)),
+      shapeKinds.apply(k),
       0)
     if (!moveIsPossible(DirDown)) {
       gameLost = true
     }
+  }
+
+  def newShape {
+    setShape(Random.nextInt(shapeKinds.length))
   }
 
   def fixShape {

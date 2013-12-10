@@ -18,7 +18,7 @@ object AIClient {
 
     while (!grid.gameLost) {
       while (!grid.shapeChanged) {
-        java.lang.Thread.sleep(100)
+        java.lang.Thread.sleep(1000)
       }
 
       aig.shape = grid.shape
@@ -28,10 +28,10 @@ object AIClient {
 
       aig.printGrid
       aig.moveList.foreach(d => {
-        tcpHandler.send(d.toString) // on envoie les directions au serveur
-        grid.move(d)}) // on applique les directions sur la grille locale
+        tcpHandler.send(d.toString)
+      }) 
       tcpHandler.send("fall") // on fait tomber la piece sur le serveur
-      grid.fall               // et sur la grille locale
+
     }
   }
 }
