@@ -101,6 +101,8 @@ class Shape (_x: Int, _y: Int, k: ShapeKind, ki: Int) {
 
   def rotation = new Shape(x, y, k, shapeKindIndex + 1)
 
+  override def toString: String = k.toString
+
   /*def makeMove (dir:Direction) {
     x = x + dir.x
     y = y + dir.y
