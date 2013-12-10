@@ -13,7 +13,7 @@ import org.jboss.netty.handler.codec.frame.Delimiters
 import org.jboss.netty.handler.codec.string.StringEncoder
 
 /**
- * Creates a newly configured ChannelPipeline for a new channel.
+ * Permet aux serveurs et client tcp de décoder les données reçues en String
  */
 class TCPServerPipelineFactory (tcpHandler: SimpleChannelUpstreamHandler) extends ChannelPipelineFactory {
 
