@@ -17,10 +17,14 @@ class TCPClient (tcpPF: ChannelPipelineFactory) {
 
   bootstrap.setPipelineFactory(tcpPF)
 
-  println("Connecting...")
-  val future = bootstrap.connect(new InetSocketAddress(host, port))
+  val future: ChannelFuture = bootstrap.connect(new InetSocketAddress(host, port))
 
   val channel = future.awaitUninterruptibly.getChannel
+  if (!future.isSuccess) {
+    future.getCause.printStackTrace()
+    bootstrap.releaseExternalResources()
+  }
 
-  bootstrap.releaseExternalResources()
+//  channel.close().awaitUninterruptibly
+//  bootstrap.releaseExternalResources()
 }

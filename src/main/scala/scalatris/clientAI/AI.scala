@@ -6,7 +6,7 @@ import scala.util._
 
 object AI {
   // Déplace la forme jusqu'en bas de la grille
-  def fallBot (aigrid:AIgrid): AIgrid = { 
+  def fallBot (aigrid: AIgrid): AIgrid = { 
     aigrid.fall
     aigrid
    }
@@ -40,7 +40,7 @@ object AI {
     // on concatène toutes les listes ensembles
     listGrid (aigrid) ++ 
     (if(aigrid.rotationIsPossible) 
-      listRot (new AIgrid(aigrid,Some(Rotation))) (aigrid.shape)
+      listRot (new AIgrid(aigrid, Some(Rotation))) (aigrid.shape)
     else Nil)
   }
 
@@ -48,7 +48,7 @@ object AI {
   def computeAI (aigrid:AIgrid): AIgrid = {
     // De deux grilles renvoit celle dont le score est supérieur a l'autre
     def chooseGrid (g:AIgrid,h:AIgrid): AIgrid = {
-      if (g.eval>h.eval) g
+      if (g.eval > h.eval) g
       else h
     }
     // reduceLeft sur la liste avec la fonction choseGrid

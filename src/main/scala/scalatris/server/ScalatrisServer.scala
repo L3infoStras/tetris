@@ -65,13 +65,14 @@ object ScalatrisServer extends SimpleSwingApplication {
     // ou déconnecté
     if (tcpHandler.hasClient != hasClient) {
       hasClient = tcpHandler.hasClient
-      tcpHandler.send("PROUUUUT")
       hasClient match {
         case true => gravityTimer.stop
         case false => gravityTimer.start
       }
     }
   }
+
+  grid.newShape
 
   val mainTimer = newTimer(100, update)
 

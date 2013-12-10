@@ -44,10 +44,7 @@ class TCPServerHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler{
   }
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
-
-    // commande reçue
     val request = e.getMessage.toString.toLowerCase
-
     request match {
       case  "right" => grid.move(DirRight)
       case  "left" => grid.move(DirLeft)

@@ -2,6 +2,21 @@ package scalatris.lib
 
 import java.awt.{Color => AWTColor}
 
+object Shape {
+  def fromString(s: String, x:Int, y:Int):Shape = {
+    val k = s match {
+      case "I" => IShapeKind
+      case "J" => JShapeKind
+      case "L" => LShapeKind
+      case "O" => OShapeKind
+      case "S" => SShapeKind
+      case "T" => TShapeKind
+      case "Z" => ZShapeKind
+    }
+    new Shape(x, y, k, 0)
+  }
+}
+
 
 sealed abstract trait ShapeKind {
   val color: AWTColor

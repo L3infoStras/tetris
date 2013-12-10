@@ -35,8 +35,6 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
     blocks(i)(nbRows-1) = true
   }
 
-  newShape
-
   // fin initialisation
 
   // utile pour l'ia  
@@ -137,8 +135,6 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
         }
     }
     addScore(n)
-    println("Score: " ++ score.toString)
-    println("Niveau: " ++ level.toString)
   }
 
   def addScore(n: Int) {

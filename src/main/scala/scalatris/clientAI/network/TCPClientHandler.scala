@@ -1,10 +1,5 @@
 package scalatris.clientAI.network
 
-import java.util.concurrent.atomic.AtomicLong
-import java.util.logging.Logger
-
-import org.jboss.netty.buffer.ChannelBuffer
-import org.jboss.netty.buffer.ChannelBuffers
 import org.jboss.netty.channel.ChannelHandlerContext
 import org.jboss.netty.channel.ChannelStateEvent
 import org.jboss.netty.channel.ExceptionEvent
@@ -12,29 +7,35 @@ import org.jboss.netty.channel.MessageEvent
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler
 import org.jboss.netty.channel.Channel
 
-class TCPClientHandler extends SimpleChannelUpstreamHandler {
+import scalatris.lib._
 
-  private val logger = Logger.getLogger(getClass.getName)
+
+class TCPClientHandler (grid: TetrisGrid) extends SimpleChannelUpstreamHandler {
   private var channel: Channel = null
 
   def send(s: String) {
-    channel.write(s)
+    channel.write(s ++ "\n")
   }
 
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent)
   {
+    println("Connected. " ++ e.getChannel.toString)
     channel = e.getChannel
-    send("fall")
   }
   
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     val data = e.getMessage.toString
-    println(data)
+    val s = data match {
+      case "I" | "J" | "L" | "O" | "S" | "T" | "Z" => {
+        grid.shape = Shape.fromString(data, 5, 0)
+        println("new shape: " ++ grid.shape.toString)
+        grid.shapeChanged = true
+      }
+      case _ => println("woopsy daisy")
+    }
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
-    // Close the connection when an exception is raised.
-    logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close()
   }
 }

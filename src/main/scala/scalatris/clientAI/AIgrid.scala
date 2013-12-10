@@ -6,7 +6,7 @@ import scala.util._
 
 // on génère désormais la liste des entrées dans AIgrid
 // mvList s'utilise pour remettre la liste a zero
-class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
+class AIgrid (grid:TetrisGrid, dir:Option[Direction]) extends TetrisGrid(10,20) {
   //init
   dir match {
     case Some(dir) => shape = grid.shape.makeMove(dir) 
