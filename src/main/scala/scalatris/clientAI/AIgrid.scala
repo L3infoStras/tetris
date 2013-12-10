@@ -41,9 +41,9 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   val coefClear: Double = 2
   val coefHeight: Double = -3
   val coefBlockade: Double = -2
-  val bonusFloor: Double = 5
-  val bonusEdge: Double = 2
-  val bonusSide: Double = 3
+  val bonusFloor: Double = 3
+  val bonusEdge: Double = 1
+  val bonusSide: Double = 2
 
   // fonction de sélection des entrées
   def lastMove (d:Direction): Char = {
