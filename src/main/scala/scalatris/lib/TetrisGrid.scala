@@ -20,6 +20,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   var blocks = ofDim[Boolean](nbCols, nbRows)
   var shape: Shape = null
   var score: Int = 0
+  var shapeChanged: Boolean = false
 
   // initialisation de la matrice de la grille
   for (i <- 0 until nbRows-1) {
@@ -42,9 +43,12 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   var moveList: List[String] = Nil
 
   def newShape {
+    shapeChanged = true
     shape = new Shape(nbCols/2, 1,
       shapeKinds.apply(Random.nextInt(shapeKinds.length)),
       0)
+    if (!moveIsPossible(DirDown))
+      gameLost = true
   }
 
   def fixShape {
