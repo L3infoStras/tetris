@@ -38,7 +38,7 @@ class TetrisGrid(_nbCols:Int, _nbRows:Int) {
   // fin initialisation
 
   // utile pour l'ia  
-  var moveList: List[String] = Nil
+  var moveList: List[Direction] = Nil
 
   def newShape {
     shapeChanged = true
