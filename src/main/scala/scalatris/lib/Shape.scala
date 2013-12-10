@@ -6,28 +6,29 @@ import java.awt.{Color => AWTColor}
 sealed abstract trait ShapeKind {
   val color: AWTColor
   val cells: List[List[(Int, Int)]]
+  def toString: String
 }
 
 case object IShapeKind extends ShapeKind {
   val color = new AWTColor(0, 200, 100)
-
   val cells = List(
     List((0, 0), (0, 1), (0, 2), (0, -1)),
     List((0, 0), (1, 0), (2, 0), (-1, 0)),
     List((0, 0), (0, 1), (0, 2), (0, -1)),
     List((0, 0), (1, 0), (2, 0), (-1, 0))
   )
+  override def toString = "I"
 }
 
 case object OShapeKind extends ShapeKind {
   val color = new AWTColor(255, 10, 10)
-
   val cells = List(
     List((0, 0), (1, 0), (1, 1), (0, 1)),
     List((0, 0), (1, 0), (1, 1), (0, 1)),
     List((0, 0), (1, 0), (1, 1), (0, 1)),
     List((0, 0), (1, 0), (1, 1), (0, 1))
   )
+  override def toString = "O"
 
 }
 
@@ -39,7 +40,7 @@ case object JShapeKind extends ShapeKind {
     List((0, 0), (0, -1), (1, -1), (0, 1)),
     List((0, 0), (1, 0), (-1, 0), (1, 1))
   )
-
+  override def toString = "J"
 }
 
 case object LShapeKind extends ShapeKind {
@@ -50,6 +51,7 @@ case object LShapeKind extends ShapeKind {
     List((0, 0), (0, 1), (0, -1), (-1, -1)),
     List((0, 0), (1, 0), (-1, 0), (1, -1))
   )
+  override def toString = "L"
 }
 
 case object TShapeKind extends ShapeKind {
@@ -60,6 +62,7 @@ case object TShapeKind extends ShapeKind {
     List((0, 0), (1, 0), (-1, 0), (0, 1)),
     List((0, 0), (0, -1), (0, 1), (-1, 0))
   )
+  override def toString = "T"
 }
 
 case object ZShapeKind extends ShapeKind {
@@ -70,6 +73,7 @@ case object ZShapeKind extends ShapeKind {
     List((0, 0), (0, 1), (1, 1), (-1, 0)),
     List((0, 0), (-1, 0), (-1, 1), (0, -1))
   )
+  override def toString = "Z"
 }
 
 case object SShapeKind extends ShapeKind {
@@ -80,6 +84,7 @@ case object SShapeKind extends ShapeKind {
     List((0, 0), (-1, 0), (0, -1), (1, -1)),
     List((0, 0), (0, -1), (1, 0), (1, 1))
   )
+  override def toString = "S"
 }
 
 
