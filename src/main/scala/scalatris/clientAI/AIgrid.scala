@@ -19,12 +19,6 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   } blocks (i) (j) =  grid.blocks (i) (j) // on copie l'array var 
   //fin init
  
-  // caractères d'entrée
-  val left = 'q'
-  val right = 'd'
-  val bot = 's'
-  val rot = 'z'
-
   // memoire des entrées
   moveList = {
     dir match { 
@@ -46,14 +40,7 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   val bonusSide: Double = 2
 
   // fonction de sélection des entrées
-  def lastMove (d:Direction): Char = {
-    d match {
-      case DirRight => right
-      case DirLeft => left
-      case DirDown => bot
-      case Rotation => rot
-    }
-  }
+  def lastMove (d:Direction): String = d.toString
 
   // constructeur simple
   def this (grid:TetrisGrid) = {
