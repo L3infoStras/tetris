@@ -10,20 +10,26 @@ import org.jboss.netty.channel.ChannelStateEvent
 import org.jboss.netty.channel.ExceptionEvent
 import org.jboss.netty.channel.MessageEvent
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler
+import org.jboss.netty.channel.Channel
 
-class EchoClientHandler extends SimpleChannelUpstreamHandler {
+class TCPClientHandler extends SimpleChannelUpstreamHandler {
 
   private val logger = Logger.getLogger(getClass.getName)
+  private var channel: Channel = null
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {  }
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent)
+  {
+    channel = e.getChannel
+    send("fall")
+  }
 
+  def send(s: String) {
+    channel.write(s)
+  }
+  
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
-
-    // donnée envoyée par le serveur
     val data = e.getMessage.toString
-
-    e.getChannel.write(e.getMessage)
-
+    println(data)
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {

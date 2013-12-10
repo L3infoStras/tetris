@@ -8,24 +8,15 @@ import org.jboss.netty.channel.{ ChannelFuture, ChannelPipeline, ChannelPipeline
 
 
 
-object TCPClient {
-    def main(args: Array[String]) {
-
-    // Parse options.
+class TCPClient (tcpPF: ChannelPipelineFactory) {
     val host = "127.0.0.1"
     val port = 9000
-    var firstMessageSize: Int = 0
 
-    // Configure the server.
+    // Configure the client
     val bootstrap = new ClientBootstrap(
       new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
 
-    // Set up the pipeline factory.
-    bootstrap.setPipelineFactory(new ChannelPipelineFactory {
-      override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(new EchoClientHandler)
-      }
-    })
+    bootstrap.setPipelineFactory(tcpPF)
 
     // Start the connection attempt.
     val future = bootstrap.connect(new InetSocketAddress(host, port))
@@ -35,5 +26,4 @@ object TCPClient {
 
     // Shut down thread pools to exit.
     bootstrap.releaseExternalResources()
-  }
 }
