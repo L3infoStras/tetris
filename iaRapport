@@ -1,0 +1,30 @@
+Intelligence artificielle:
+
+Fonctionnement:
+L'Intelligence Artificielle a été conçu en bottom-up.
+La classe AI s'occupe de générer une liste exhaustive de toutes les grilles 
+possibles pouvant être obtenues à partir d'une seule forme.
+Pour cela, elle crée des copies à gauche, à droite (fonction reach) de la grille pour la
+forme initiale.
+Ensuite, elle effectue cette opération pour toutes les rotations
+possibles (fonction listGrid et listGridWithRot) de la forme actuelle de la grille.
+Enfin, l'ia calcule un score pour chaque grille (méthode eval) et renvoit
+la grille qui a réalisé le meilleur score en utilisant un algorithme
+map/reduce.
+
+Evaluation:
+
+L'évaluation a consisté à attribuer un score à chaque grille en fonction
+de différents critères:
+- la hauteur des blocs 
+- le nombre de trous dans la grille
+- les blocs considérés comme genant (au-dessus d'un trou)
+- la densité des blocs (nombre de voisin, etc)
+
+Améliorations possibles:
+
+Il est possible d'évaluer les blocs différemment en fonction de leur
+type. 
+Par ailleurs, les différentes valeurs utilisées pour paramétrer l'IA ne
+sont pas excellentes, il serait possible de concevoir un algorithme
+génétique distribué afin de les calculer.
