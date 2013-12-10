@@ -56,7 +56,10 @@ object ScalatrisServer extends SimpleSwingApplication {
    */
   def update {
     // on regarde si la forme a changé
-    if (grid.shapeChanged) {
+    if (grid.gameLost)
+      tcpHandler.send("lost")
+
+    else if (grid.shapeChanged) {
       tcpHandler.send(grid.shape.toString)
       grid.shapeChanged = false
     }
