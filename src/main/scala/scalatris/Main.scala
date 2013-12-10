@@ -1,17 +1,18 @@
 import scalatris.lib._
 import scalatris.clientAI._
 
-object Main {
+object AItestShell {
     def main(args: Array[String]) {
       val g = new TetrisGrid(10,20)
       var aig = new AIgrid(g)
-      var input = 'p'
+      var input = ' '
+      println("appuyer sur q pour quitter, n'importe quelle autre touche pour tester l'ia puis appuyer sur entrée")
       //for (i <- 2 until g.nbCols-3)  g.blocks (i) (20)=true
       //for (i <- 0 until g.nbCols-1)  g.blocks (i) (19)=true
       //for (i <- 2 until g.nbCols) g.blocks (i) (18)=true
       //for (i <- 1 until g.nbCols-5) g.blocks (i) (17)=true
       //for (i <- 0 until 2) g.blocks (i) (16)=true
-      while(input!='r')
+      while(input!='q')
       { 
         aig = AI.computeAI (new AIgrid(aig))
         aig.printGrid ; println(aig.eval) ; println (aig.moveList) ; 
