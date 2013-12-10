@@ -17,14 +17,14 @@ class TCPClientHandler extends SimpleChannelUpstreamHandler {
   private val logger = Logger.getLogger(getClass.getName)
   private var channel: Channel = null
 
+  def send(s: String) {
+    channel.write(s)
+  }
+
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent)
   {
     channel = e.getChannel
     send("fall")
-  }
-
-  def send(s: String) {
-    channel.write(s)
   }
   
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
