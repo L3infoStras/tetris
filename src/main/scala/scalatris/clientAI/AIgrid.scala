@@ -17,7 +17,15 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
     j <- 0 until nbRows
   } blocks (i) (j) =  grid.blocks (i) (j) // on copie l'array var 
   //fin init
-    
+ 
+  // memoire des entrées
+  override val moveList: List[Char] = {
+    dir match { 
+      case Some(dir) => grid.moveList :+ lastMove(dir)
+      case None => grid.moveList
+    }
+  }
+   
   // caractères d'entrée
   val left = 'q'
   val right = 'd'
@@ -29,14 +37,6 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   val coefClear: Double = 1.6
   val coefHeight: Double = -3.78
   val coefBlockade: Double = -0.59
-
-  // memoire des entrées
-  override val moveList: List[Char] = {
-    dir match { 
-      case Some(dir) => grid.moveList :+ lastMove(dir)
-      case None => grid.moveList
-    }
-  }
 
   // fonction de sélection des entrées
   def lastMove (d:Direction): Char = {
@@ -52,7 +52,6 @@ class AIgrid (grid:TetrisGrid,dir:Option[Direction]) extends TetrisGrid(10,20) {
   def this (grid:TetrisGrid) = {
     this(grid,None)
   }
-
 
   // Evalue la grille et renvoit un score
   def eval: Double = {
