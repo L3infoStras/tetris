@@ -44,7 +44,7 @@ case object JShapeKind extends ShapeKind {
 }
 
 case object LShapeKind extends ShapeKind {
-  val color = new AWTColor(20, 20, 255)
+  val color = new AWTColor(20, 20, 200)
   val cells = List(
     List((0, 0), (0, -1), (0, 1), (1, 1)),
     List((0, 0), (1, 0), (-1, 0), (-1, 1)),
@@ -77,7 +77,7 @@ case object ZShapeKind extends ShapeKind {
 }
 
 case object SShapeKind extends ShapeKind {
-  val color = new AWTColor(20, 239, 14)
+  val color = new AWTColor(20, 100, 14)
   val cells = List(
     List((0, 0), (-1, 0), (0, -1), (1, -1)),
     List((0, 0), (0, -1), (1, 0), (1, 1)),
